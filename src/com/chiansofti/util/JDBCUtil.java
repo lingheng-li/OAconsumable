@@ -11,9 +11,9 @@ import java.util.Properties;
 
 public class JDBCUtil {
 	private static Connection con;
-	static Properties pro =null;//¿ÉÒÔ°ïÖú¶ÁÈ¡ºÍ´¦Àí×ÊÔ´ÖĞµÄĞÅÏ¢
+	static Properties pro =null;//å¯ä»¥å¸®åŠ©è¯»å–å’Œå¤„ç†èµ„æºä¸­çš„ä¿¡æ¯
 	static{
-		//¼ÓÔØJDBCUtilÀàµÄÊ±ºòµ÷ÓÃ
+		//åŠ è½½JDBCUtilç±»çš„æ—¶å€™è°ƒç”¨
 		pro =new Properties();
 		try {
 //			InputStream is = JDBCUtil.class.getResourceAsStream("db.properties");
@@ -35,7 +35,7 @@ public class JDBCUtil {
 					);
 			return con;
 		} catch (Exception e) {
-			throw new RuntimeException(e + "Êı¾İ¿âÁ¬½ÓÊ§°Ü");
+			throw new RuntimeException(e + "æ•°æ®åº“è¿æ¥å¤±è´¥");
 		}
 	}
 	
