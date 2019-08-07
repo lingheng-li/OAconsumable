@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 2019年8月7日 @CH
  */
-@WebServlet("/Main")
+
+
+// TODO 暂时弃用
+@WebServlet("/Login111")
 public class IndexServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res)
 	    throws ServletException, IOException {
-	req.getRequestDispatcher("/Main.jsp").forward(req, res);
+	req.getRequestDispatcher("/Login.jsp").forward(req, res);
     }
 }

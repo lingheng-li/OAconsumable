@@ -11,17 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 2019年8月7日 @CH
  */
-@WebServlet("/checkAndAccept")
-public class CheckAndAccept extends HttpServlet {
+@WebServlet("/Main")
+public class MainServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException {
-	
-	
-	
-	
-	
-	req.getRequestDispatcher("/OACheckAndAccept.jsp").forward(req, res);
+	    throws ServletException, IOException {
+	// TODO 判断是否登录
+	req.getRequestDispatcher("/Main.jsp").forward(req, res);
     }
 }
-

@@ -9,7 +9,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
+<%-- <base href="<%=basePath%>"> --%>
+<base href="#">
 
 <title>My JSP 'OAMenus.jsp' starting page</title>
 
@@ -40,6 +41,14 @@
 	
 </script>
 
+<script type="text/javascript">
+	$(function(){
+		$("#checkAndAccept").click(function() {
+			$("#checkAndAccept").addClass("active");
+		});
+	});
+</script>
+
 </head>
 
 <body>
@@ -64,7 +73,7 @@
 				<!-- <li class="active"><a href="#">低值易耗品购置申请<span
 						class="sr-only">(current1)</span></a></li> -->
 				<li><a href="#">低值易耗品购置申请</a></li>
-				<li><a href="<%=path%>/checkAndAccept">低值易耗品验收</a></li>
+				<li id="checkAndAccept"><a href="<%=path%>/checkAndAccept">低值易耗品验收</a></li>
 				<li><a href="#">地址易耗品调拨</a></li>
 				<li><a href="#">低值易耗品处置（报废）</a></li>
 				<li><a href="#">易耗品台帐一览</a></li>
@@ -73,7 +82,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">系统 <span class="caret"></span></a>
+					aria-expanded="false"><c:if test="${userInfo!=null }"> ${userInfo.empname } </c:if><span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="#">退出登录</a></li>
 						<li><a href="#">重新登录</a></li>
@@ -85,6 +94,6 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
-
+	
 </body>
 </html>

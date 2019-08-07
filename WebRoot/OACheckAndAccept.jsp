@@ -8,10 +8,8 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-
 <head>
 <base href="<%=basePath%>">
-
 <title>My JSP 'index.jsp' starting page</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -19,7 +17,6 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <script type="text/javascript" src="js/jquery.min.js"></script>
-
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
@@ -42,7 +39,7 @@
 
 <script type="text/javascript">
 	$(function() {
-
+		
 	})
 </script>
 
@@ -53,13 +50,12 @@ td {
 
 #t {
 	/* vertical-align: middle; */
-	
 }
 </style>
 
 </head>
 <body>
-	<jsp:include page="/include/OAMainMenus.jsp" flush="true" />
+	<jsp:include page="/include/OAMainMenus.jsp" flush="false" />
 	<hr />
 	<form action="" method="post">
 		<table class="table table-bordered">
