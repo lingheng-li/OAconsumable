@@ -41,10 +41,9 @@
 </script>
 
 <script type="text/javascript">
-	$(function(){
-		
-	})
+	$(function() {
 
+	})
 </script>
 
 <style type="text/css">
@@ -59,8 +58,8 @@ td {
 </style>
 
 </head>
-
 <body>
+	<jsp:include page="/include/OAMainMenus.jsp" flush="true" />
 	<hr />
 	<form action="" method="post">
 		<table class="table table-bordered">
@@ -167,14 +166,6 @@ td {
 				<td></td>
 			</tr>
 			<tr>
-				<td colspan="2" style="vertical-align:middle;">验收人：</td>
-				<td><input type="text" class=".input-mini form-control"
-					placeholder="当前登录的用户"></td>
-				<td style="vertical-align:middle;">采购人：</td>
-				<td><input type="text" class=".input-mini form-control"
-					placeholder="计划审批表中获取"></td>
-			</tr>
-			<tr>
 				<td colspan="2" style="vertical-align:middle;">部门（单位）负责人：</td>
 				<td>
 					<div class="input-group">
@@ -196,8 +187,21 @@ td {
 						</div>
 					</div> <!-- /input-group -->
 				</td>
+
+				<td style="vertical-align:middle;">采购人：</td>
+				<td><input type="text" class=".input-mini form-control"
+					placeholder="计划审批表中获取"></td>
 				<td style="vertical-align:middle;">日期：</td>
-				<td colspan="5" style="vertical-align:middle;">当前时间</td>
+				<td colspan="3" style="vertical-align:middle;">当前时间</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="vertical-align:middle;">验收人：</td>
+				<td style="vertical-align:middle;"><input type="text"
+					class=".input-mini form-control" placeholder="当前登录的用户"></td>
+				<!-- 验收人意见 -->
+				<td style="vertical-align:middle;">验收人意见：</td>
+				<td colspan="5" style="vertical-align:middle;"><textarea
+						class="form-control" rows="1"></textarea></td>
 			</tr>
 			<tr>
 				<td colspan="9" align="center"><button style="width:100px;"

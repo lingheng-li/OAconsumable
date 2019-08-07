@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
  * 2019年8月7日 @CH
  */
 @WebServlet("/checkAndAccept")
-public class OACheck extends HttpServlet {
+public class CheckAndAccept extends HttpServlet {
     @Override
-    protected void service(HttpServletRequest arg0, HttpServletResponse arg1)
+    protected void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-	
+	req.getRequestDispatcher("/OACheckAndAccept.jsp").forward(req, res);
     }
 }
 
