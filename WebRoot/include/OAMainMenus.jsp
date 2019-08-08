@@ -82,7 +82,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"><c:if test="${userInfo!=null }"> ${userInfo.empname } </c:if><span class="caret"></span></a>
+					aria-expanded="false"><c:if test="${emp!=null }"> ${emp.empname } </c:if><span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="#">退出登录</a></li>
 						<li><a href="#">重新登录</a></li>
