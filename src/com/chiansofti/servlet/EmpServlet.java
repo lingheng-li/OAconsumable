@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import com.chiansofti.entity.Emp;
 import com.chiansofti.serviceImpl.EmpServiceImpl;
 
+//登录使用
 @WebServlet("/Login")
 public class EmpServlet extends HttpServlet{
 
@@ -25,15 +26,11 @@ public class EmpServlet extends HttpServlet{
 		if(emp!=null) {
 			HttpSession session = req.getSession();
 			session.setAttribute("emp", emp);
-			req.setAttribute("emp", emp);
-//			JSONObject jsonObject=JSONObject.fromObject(emp);
-//			resp.getWriter().print(jsonObject);
 			req.getRequestDispatcher("Main.jsp").forward(req, resp);
 		}else {
 			String error="员工编号或密码不正确";
 			req.setAttribute("error", error);
 			req.getRequestDispatcher("Login.jsp").forward(req, resp);
 		}
-		
 	}
 }
