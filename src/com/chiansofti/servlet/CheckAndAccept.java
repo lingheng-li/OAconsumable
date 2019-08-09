@@ -16,11 +16,7 @@ public class CheckAndAccept extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-	
-	
-	
-	
-	
+
 	req.getRequestDispatcher("/OACheckAndAccept.jsp").forward(req, res);
     }
 }

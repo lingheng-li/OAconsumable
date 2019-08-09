@@ -21,67 +21,89 @@
 	src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <script type="text/javascript">
 	var applyMap = null;
+	var userList = null;
+	var cur = null;
 	$(function() {
-		$("#applyList").change(function() {
-			/* alert($("#applyList").val()); */
-		});
+
 		$.get("getApplyList", {
 			p : ""
 		}, success, "json");
 
+		$("#applyList").change(function() {
+			$.get("getApplyList", {
+				p : ""
+			}, success, "json");
+		});
+
+		$.get("getUserList", {
+			p : ""
+		}, disUserList, "json");
+
 	});
-	function setApplyNo(text) {
-		/* alert($(text).html()); */
+
+	function disUserList(data) {
+		userList = data;
+		console.log(data);
+		//给selectUser下拉框添加值
 	}
+
 	function success(data) {
 		applyMap = data;
-		/* $("#applyList").empty(); */
-		$.each(applyMap, function(key, values) {
-			/* console.log(key); */
-			console.log(values);
-			/*  $(values).each(function() {
-				console.log(" " + this);
-			});  */
-			$op = $("<option>" + values[1] + "</option>");
-			$op.appendTo($("#applyList"));
-
-		});
-		/* alert($("#applyList").val()); */
-		/* $("#items").empty(); */
-		$.each(applyMap, function(key, values) {
-			if (key == ($("#applyList").val()) && values[7] > 0) {
-				//alert(values[7]);
-				for (var i = values[7]; i > 0; i--) {
-					/* $("<tr id='items"+i+"'></tr>").after($("#items")); */
-					$("#items tr:eq(3)").after("<tr id='items"+i+"'>"+"<td><input type='text' class='.input-mini form-control' value='"+values[4]+"'></td>"+"</tr>");
-					/* var td = "<tr id='items"+i+"'><td align='center' style='vertical-align:middle;'>"
-							+ i + "</td>";
-					// 物品编码 
-					td += "<td><input type='text' class='.input-mini form-control' value='"+values[4]+"'></td>";
-					// alert(values[4]);
-					// 物品名称
-					td += "<td><input type='text' class='.input-mini form-control' value='"+values[5]+"'></td>";
-					// 物品数量  
-					td += "<td align='center' style='vertical-align:middle;'>1</td></tr>";
-					$(td).appendTo($("#items"+i)); */
-				}
+		var num = $('.applyList option').length;
+		// 先判断购置计划下拉列表是否为空
+		if (num == 0) {
+			$.each(applyMap, function(key, values) {
+				//console.log(values);
+				/* $(values).each(function() {
+					console.log(" " + this);
+				}); */
+				$op = $("<option>" + values[1] + "</option>");
+				$op.appendTo($("#applyList"));
+			});
+		} else {
+			for (var i = 1; i <= cur; i++) {
+				$("#items" + i).remove();
 			}
-		});
-		/* 	$("#emp").empty();
-			var $option = null;
-			if (applyMap.length == 0) {
-				$option = $("<option></option>");
-				$option.tiex("此部门无人");
-				$option.appendTo($("#emp"));
-			} else {
-				for (var i = 0; i < applyMap.size; i++) {
-					var empObj = empList[i];
-					$option = $("<option></option>");
-					$option.text(empObj.ename);
-					$option.appendTo($("#emp"));
-					alert(applyMap.ename);
-				}
-			} */
+		}
+
+		$
+				.each(
+						applyMap,
+						function(key, values) {
+							if (key == ($("#applyList").val()) && values[7] > 0) {
+								for (var i = values[7]; i > 0; i--) {
+									// 序号	
+									var tdno = "<td align='center' style='vertical-align:middle;'>"
+											+ i + "</td>";
+									// 物品编码 
+									var tdcode = "<td><input type='text' class='.input-mini form-control' value='"+values[4]+"'></td>";
+									// 物品名称
+									var tdname = "<td><input type='text' class='.input-mini form-control' value='"+values[5]+"'></td>";
+									// 物品数量  
+									var tdnum = "<td align='center' style='vertical-align:middle;'>1</td>";
+									//不含税单价	
+									var tdprice1 = "<td><input type='text' class='.input-mini form-control' ></td>";
+									//不含税总价	
+									var tdprice2 = "<td><input type='text' class='.input-mini form-control' ></td>";
+									//增值税	
+									var tdprice3 = "<td><input type='text' class='.input-mini form-control' ></td>";
+									//价税合计
+									var tdprice4 = "<td><input type='text' class='.input-mini form-control' ></td>";
+									// 使用人
+									var tduser = "<td colspan='2' style='vertical-align:middle;'><select id='selectUser"+i+"' class='form-control'></select></td>";
+									$("#items tr:eq(3)").after(
+											"<tr id='items"+i+"'>" + tdno
+													+ tdcode + tdname + tdnum
+													+ tdprice1 + tdprice2
+													+ tdprice3 + tdprice4
+													+ tduser + "</tr>");
+								}
+
+								//cur = $("#applyList").val();
+								cur = values[7];
+							}
+						});
+
 	}
 </script>
 
@@ -108,7 +130,7 @@ td {
 				<tr>
 					<td colspan="2" style="vertical-align:middle;">购置计划编号：</td>
 					<td colspan="2" style="vertical-align:middle;"><select
-						id="applyList" class="form-control"></select></td>
+						id="applyList" class="form-control applyList"></select></td>
 					<td colspan="1" id="t" style="vertical-align:middle;">部门盖章：</td>
 					<td colspan="4"></td>
 				</tr>
@@ -118,7 +140,7 @@ td {
 					<td rowspan="2" style="vertical-align:middle;">物品名称</td>
 					<td rowspan="2" style="vertical-align:middle;">数量</td>
 					<td colspan="4" style="vertical-align:middle;">购入价（元）</td>
-					<td rowspan="2" style="vertical-align:middle;">使用人</td>
+					<td rowspan="2" style="vertical-align:middle;width:100px">使用人</td>
 				</tr>
 				<tr align="center">
 					<td>不含税单价</td>
@@ -126,54 +148,7 @@ td {
 					<td>增值税</td>
 					<td>价税合计</td>
 				</tr>
-				<tr>
-					<td style="vertical-align:middle; width:50px">
-						<!-- 序号 --> 1
-					</td>
-					<td>
-						<!-- 低值易耗品编码 --> <input type="text"
-						class=".input-mini form-control">
-					</td>
-					<td>
-						<!-- 低值易耗品名称 --> <input type="text"
-						class=".input-mini form-control">
-					</td>
-					<td>
-						<!-- 数量 --> <input type="text" class=".input-mini form-control">
-					</td>
-					<td>
-						<!-- 不含税单价 --> <input type="text" class=".input-mini form-control">
-					</td>
-					<td>
-						<!-- 不含税总价 --> <input type="text" class=".input-mini form-control">
-					</td>
-					<td>
-						<!-- 增值税 --> <input type="text" class=".input-mini form-control">
-					</td>
-					<td>
-						<!-- 价税合计 --> <input type="text" class=".input-mini form-control">
-					</td>
-					<td>
-						<!-- 使用人 -->
-						<div class="input-group">
-							<input type="text" class="form-control" aria-label="...">
-							<div class="input-group-btn">
-								<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-haspopup="true"
-									aria-expanded="false">
-									&nbsp;<span class="glyphicon glyphicon-user"></span>
-								</button>
-								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="#">Action</a></li>
-									<li><a href="#">Another action</a></li>
-									<li><a href="#">Something else here</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">Separated link</a></li>
-								</ul>
-							</div>
-						</div>
-					</td>
-				</tr>
+
 				<tr>
 					<td style="vertical-align:middle;">合计</td>
 					<td></td>
@@ -208,7 +183,7 @@ td {
 						</div> <!-- /input-group -->
 					</td>
 
-					<td style="vertical-align:middle;">采购人：</td>
+					<td style="vertical-align:middle;" colspan="2">采购人：</td>
 					<td><div class="input-group">
 							<input type="text" class="form-control" placeholder="员工表中获取"
 								aria-label="...">
@@ -228,7 +203,7 @@ td {
 							</div>
 						</div> <!-- /input-group --></td>
 					<td style="vertical-align:middle;">日期：</td>
-					<td colspan="3" style="vertical-align:middle;"><%=new Date()%></td>
+					<td colspan="2" style="vertical-align:middle;"><%=new Date()%></td>
 				</tr>
 				<tr>
 					<td colspan="2" style="vertical-align:middle;">验收人：</td>
@@ -236,7 +211,7 @@ td {
 						class=".input-mini form-control" placeholder="当前登录的用户"
 						value="${emp==null?'':emp.empname }" /></td>
 					<!-- 验收人意见 -->
-					<td style="vertical-align:middle;">验收人意见：</td>
+					<td colspan="2" style="vertical-align:middle;">验收人意见：</td>
 					<td colspan="3" style="vertical-align:middle;"><textarea
 							class="form-control" rows="1"></textarea></td>
 					<td></td>

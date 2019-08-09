@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.chiansofti.entity.Emp;
 import com.chiansofti.util.JDBCUtil;
@@ -39,5 +41,35 @@ public class EmpDao {
 	    JDBCUtil.close(rs, ps, conn);
 	}
 	return emp;
+    }
+
+    public List<Emp> userList() {
+	ResultSet rs = null;
+	PreparedStatement ps = null;
+	Connection conn = null;
+	List<Emp> userList = new ArrayList<>();
+	Emp emp = null;
+	String sql = "select * from emp";
+	try {
+	    conn = JDBCUtil.getMySqlConn();
+	    ps = conn.prepareStatement(sql);
+	    rs = ps.executeQuery();
+	    while (rs.next()) {
+		emp = new Emp();
+		// emp.setId(rs.getInt("id"));
+		emp.setEmpno(rs.getString("empno"));
+		emp.setEmpname(rs.getString("empname"));
+		// emp.setDeptno(rs.getString("deptno"));
+		// emp.setPosition(rs.getString("position"));
+		// emp.setPower(rs.getInt("power"));
+		userList.add(emp);
+	    }
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	} finally {
+	    JDBCUtil.close(rs, ps, conn);
+	}
+	return userList;
+
     }
 }
