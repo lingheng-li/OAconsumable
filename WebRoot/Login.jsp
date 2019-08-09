@@ -55,6 +55,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        <div class="form-item"><button id="submit">登录</button></div>
 		</div>
     </form>
-    <script src="images/jquery.min.js"></script>
 </body>
 </html>

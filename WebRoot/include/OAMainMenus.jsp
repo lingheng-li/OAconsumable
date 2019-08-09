@@ -19,7 +19,9 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<script type="text/javascript" src="js/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
 <link rel="stylesheet"
@@ -42,14 +44,13 @@
 </script>
 
 <script type="text/javascript">
-	$(function(){
-		$("#checkAndAccept").click(function() {
-			$("#checkAndAccept").addClass("active");
-		});
+	$(function() {
+		var thisMuen = $("#Menus").attr("name");
+		$("#" + thisMuen).addClass("active");
 	});
 </script>
 <script type="text/javascript">
-	$(function(){
+	$(function() {
 		$("#Allocation").click(function() {
 			$("#Allocation").addClass("active");
 		});
@@ -58,8 +59,12 @@
 </head>
 
 <body>
+	<%
+	    String me = request.getParameter("thisMuen");
+	%>
+
 	<nav class="navbar navbar-default navbar-static-top">
-	<div class="container-fluid">
+	<div class="container-fluid" id="Menus" name="<%=me%>">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -88,10 +93,10 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"><c:if test="${emp!=null }"> ${emp.empname } </c:if><span class="caret"></span></a>
+					aria-expanded="false"><c:if test="${emp!=null }"> ${emp.empname } </c:if><span
+						class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">退出登录</a></li>
-						<li><a href="#">重新登录</a></li>
+						<li><a href="<%=path%>/logOut">退出登录</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#">用户注册</a></li>
 					</ul></li>
@@ -100,6 +105,6 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
-	
+
 </body>
 </html>
