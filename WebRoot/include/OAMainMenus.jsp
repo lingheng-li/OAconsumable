@@ -42,17 +42,24 @@
 	crossorigin="anonymous">
 	
 </script>
-
 <script type="text/javascript">
 	$(function() {
 		var thisMuen = $("#Menus").attr("name");
 		$("#" + thisMuen).addClass("active");
 	});
 </script>
+
+<script type="text/javascript">
+	$(function(){
+		$("#checkAndAccept").click(function() {
+			$("#checkAndAccept").addClass("active");
+		});
+	});
+</script>
 <script type="text/javascript">
 	$(function() {
-		$("#Allocation").click(function() {
-			$("#Allocation").addClass("active");
+		$("#showAllocation").click(function() {
+			$("#showAllocation").addClass("active");
 		});
 	});
 </script>
@@ -85,7 +92,7 @@
 						class="sr-only">(current1)</span></a></li> -->
 				<li><a href="#">低值易耗品购置申请</a></li>
 				<li id="checkAndAccept"><a href="<%=path%>/checkAndAccept">低值易耗品验收</a></li>
-				<li id="Allocation"><a href="<%=path%>/Allocation">低值易耗品调拨</a></li>
+				<li id="showAllocation"><a href="<%=path%>/showAllocation">低值易耗品调拨</a></li>
 				<li><a href="#">低值易耗品处置（报废）</a></li>
 				<li><a href="#">易耗品台帐一览</a></li>
 			</ul>
@@ -94,7 +101,7 @@
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false"><c:if test="${emp!=null }"> ${emp.empname } </c:if><span
-						class="caret"></span></a>
+					 class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="<%=path%>/logOut">退出登录</a></li>
 						<li role="separator" class="divider"></li>
@@ -105,6 +112,6 @@
 		<!-- /.navbar-collapse -->
 	</div>
 	<!-- /.container-fluid --> </nav>
-
+	
 </body>
 </html>

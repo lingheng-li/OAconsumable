@@ -48,7 +48,7 @@ td {
 				<td style="vertical-align:middle;">数量</td>
 				<td style="vertical-align:middle;">购入价（元）</td>
 				<td style="vertical-align:middle;">使用人</td>
-				<td style="vertical-align:middle;"><button>添加</button></td>
+				<td style="vertical-align:middle;"><button onclick="addtr()">添加</button></td>
 			</tr>	
     		<tr>
 				<td style="vertical-align:middle; width:50px">
@@ -93,6 +93,36 @@ td {
 						</div>
 					</div>
 				</td>
+			</tr>
+						<tr>
+				<td colspan="2" style="vertical-align:middle;">调出部门审批：</td>
+				<td>
+
+				</td>
+				<td style="vertical-align:middle;">调入部门审批：</td>
+				<td></td>
+				<td style="vertical-align:middle;">财务职产部核实盖章：</td>
+				<td colspan="3" style="vertical-align:middle;"></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="vertical-align:middle;">负责人：</td>
+				<td style="vertical-align:middle;"></td>
+				<td style="vertical-align:middle;">负责人：</td>
+				<td colspan="1" style="vertical-align:middle;"></td>
+				<td style="vertical-align:middle;">负责人：</td>
+				<td colspan="1" style="vertical-align:middle;"></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="vertical-align:middle;">经办人：</td>
+				<td style="vertical-align:middle;"></td>
+				<td style="vertical-align:middle;">经办人：</td>
+				<td colspan="1" style="vertical-align:middle;"></td>
+				<td style="vertical-align:middle;">经办人：</td>
+				<td colspan="1" style="vertical-align:middle;"></td>
+			</tr>
+			<tr>
+				<td colspan="9" align="center"><button style="width:100px;"
+						type="submit" class="btn btn-default btn-block">提交</button></td>
 			</tr>
     	</table>
     </form>

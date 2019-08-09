@@ -10,7 +10,7 @@ import com.chiansofti.util.JDBCUtil;
 
 public class EmpDao {
 
-    // ��¼������ѯ��ݿ�
+    // 登录
     public Emp Login(String empno, String pwd) {
 	ResultSet rs = null;
 	PreparedStatement ps = null;
