@@ -98,6 +98,12 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	$(function() {
+		$("#stangingbook").click(function() {
+			$("#stangingbook").addClass("active");
+		});
+	});
 </head>
 
 <body>
@@ -132,7 +138,7 @@
 				<li id="showAllocation"><a href="<%=path%>/showAllocation">低值易耗品调拨查询</a></li>
 				<li id="checkAllocation"><a>低值易耗品调拨审批</a></li>
 				<li id="SelListServlet"><a href="<%=path%>/SelListServlet">低值易耗品处置（报废）</a></li>
-				<li><a href="#">易耗品台帐一览</a></li>
+				<li id="stangingbook"><a href="<%=path%>/stangingbook">易耗品台帐一览</a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
