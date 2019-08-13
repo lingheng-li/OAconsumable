@@ -66,6 +66,24 @@ public class EmpDao {
 	    JDBCUtil.close(rs, ps, conn);
 	}
 	return userList;
-
     }
+
+	public int select(String dealer) {
+		String sql="select power from emp where empname=?";
+		int power=0;
+	    try {
+	    	conn = JDBCUtil.getMySqlConn();
+			ps = conn.prepareStatement(sql);
+			ps.setObject(1, dealer);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				power=rs.getInt("power");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			JDBCUtil.close(rs, ps, conn);
+		}
+		return power;
+	}
 }
