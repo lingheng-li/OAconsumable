@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
-import com.chiansofti.entity.TestConsumable;
+import com.chiansofti.entity.ConsumablesDetal;
 import com.chiansofti.serviceImpl.AllocationServiceImpl;
 
 //用于调取调拨物品
@@ -23,7 +23,7 @@ public class AddAllocationServlet extends HttpServlet{
 			throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		String code=req.getParameter("code");
-		TestConsumable consumable =allocationServiceImpl.selectConsum(code);
+		ConsumablesDetal consumable =allocationServiceImpl.selectConsum(code);
 		resp.setCharacterEncoding("utf-8");
 		JSONObject jsonObject = JSONObject.fromObject(consumable);
 		resp.getWriter().print(jsonObject);

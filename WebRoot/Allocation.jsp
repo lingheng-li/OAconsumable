@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var name=data.consumable_name;
 				var tablenum=data.tablenum;
 				var price=data.tax_price;
-				var user=data.user;
+				var user=data.emp_name;
 				$("#id"+a).attr("value",id);
 				$("#name"+a).attr("value",name);
 				$("#tablenum"+a).attr("value",tablenum);

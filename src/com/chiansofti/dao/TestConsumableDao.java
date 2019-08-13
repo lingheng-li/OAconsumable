@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.chiansofti.entity.TestConsumable;
+import com.chiansofti.entity.ConsumablesDetal;
 import com.chiansofti.util.JDBCUtil;
 
 //测试用
@@ -13,9 +13,10 @@ public class TestConsumableDao {
 	ResultSet rs = null;
 	PreparedStatement ps = null;
 	Connection conn = null;
-	public TestConsumable select(String code){
-		TestConsumable consum=new TestConsumable();
-		String sql="select * from consumables_detal where consumable_code= ? and state<= 1";
+	public ConsumablesDetal select(String code){
+		ConsumablesDetal consum=new ConsumablesDetal();
+		String sql="SELECT * FROM consumables_detal d LEFT JOIN  consumable c ON "
+				+ "d.consumable_code=c.consumable_code WHERE state<=1 and consumable_code=?";
 		try {
 			conn=JDBCUtil.getMySqlConn();
 			ps=conn.prepareStatement(sql);
@@ -26,24 +27,21 @@ public class TestConsumableDao {
 				consum.setConsumable_code(code);
 				consum.setTablenum(rs.getString("tablenum"));
 				consum.setTax_price(rs.getDouble("tax_price"));
-				consum.setUser(rs.getString("emp_name"));
-			}
-			sql="select * from consumable where consumable_code=?";
-			ps=conn.prepareStatement(sql);
-			ps.setObject(1, code);
-			rs=ps.executeQuery();
-			if(rs.next()){
+				consum.setEmp_name(rs.getString("emp_name"));
 				consum.setConsumable_name(rs.getString("consumable_name"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			JDBCUtil.close(rs, ps, conn);
 		}
 		return consum;
 	}
 	
-	public TestConsumable selectId(int id){
-		TestConsumable consum=new TestConsumable();
-		String sql="select * from consumables_detal where id=?";
+	public ConsumablesDetal selectId(int id){
+		ConsumablesDetal consum=new ConsumablesDetal();
+		String sql="SELECT * FROM consumables_detal d LEFT JOIN  consumable c "
+				+ "ON d.consumable_code=c.consumable_code where id=?";
 		conn=JDBCUtil.getMySqlConn();
 		try {
 			ps=conn.prepareStatement(sql);
@@ -54,18 +52,27 @@ public class TestConsumableDao {
 				consum.setConsumable_code(rs.getString("consumable_code"));
 				consum.setTablenum(rs.getString("tablenum"));
 				consum.setTax_price(rs.getDouble("tax_price"));
-				consum.setUser(rs.getString("emp_name"));
-			}
-			sql="select * from consumable where consumable_code=?";
-			ps=conn.prepareStatement(sql);
-			ps.setObject(1, consum.getConsumable_code());
-			rs=ps.executeQuery();
-			if(rs.next()){
+				consum.setEmp_name(rs.getString("emp_name"));
 				consum.setConsumable_name(rs.getString("consumable_name"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally{
+			JDBCUtil.close(rs, ps, conn);
 		}
 		return consum;
+	}
+	public void update(int id){
+		String sql ="update consumables_detal set state=15 where id=?";
+		conn=JDBCUtil.getMySqlConn();
+		try {
+			ps=conn.prepareStatement(sql);
+			ps.setObject(1, id);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			JDBCUtil.close(rs, ps, conn);
+		}
 	}
 }

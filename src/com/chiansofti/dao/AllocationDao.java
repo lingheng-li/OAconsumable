@@ -18,6 +18,7 @@ public class AllocationDao {
 	Connection conn = null;
 	TestConsumableDao consumableDao = new TestConsumableDao();
 	
+	
 	//查询个人能操作的调拨表数据 
 	public List<Allocation> select(String deptno,int state){
 		String sql = null;
@@ -79,6 +80,7 @@ public class AllocationDao {
 				ps.setObject(7, a.getCreate_time());
 				ps.setObject(8, emp.getPower());
 				ps.execute();
+				consumableDao.update(a.getDetalid());
 			}
 			conn.commit();
 		} catch (SQLException e) {

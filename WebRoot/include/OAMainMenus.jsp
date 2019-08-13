@@ -72,13 +72,6 @@
 </script>
 <script type="text/javascript">
 	$(function() {
-		$("#checkAllocation").click(function() {
-			$("#checkAllocation").addClass("active");
-		});
-	});
-</script>
-<script type="text/javascript">
-	$(function() {
 		$("#ApplyForward").click(function() {
 			$("#ApplyForward").addClass("active");
 		});  

@@ -8,8 +8,8 @@ import java.util.List;
 import com.chiansofti.dao.AllocationDao;
 import com.chiansofti.dao.TestConsumableDao;
 import com.chiansofti.entity.Allocation;
+import com.chiansofti.entity.ConsumablesDetal;
 import com.chiansofti.entity.Emp;
-import com.chiansofti.entity.TestConsumable;
 import com.chiansofti.service.AllocationService;
 
 public class AllocationServiceImpl implements AllocationService{
@@ -96,7 +96,7 @@ public class AllocationServiceImpl implements AllocationService{
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		int year= calendar.get(calendar.YEAR);
-		String aid="A-"+year+"-0"+i;
+		String aid="A-"+year+"-"+System.currentTimeMillis();
 		Date time =new Date(System.currentTimeMillis());
 		for (int i = 0; i < datas.length; i++) {
 			Allocation a = new Allocation();
@@ -113,8 +113,8 @@ public class AllocationServiceImpl implements AllocationService{
 		allocationDao.addAllocation(list,emp);
 	}
 	
-	public TestConsumable selectConsum(String code){
-		TestConsumable consumable=consumableDao.select(code);
+	public ConsumablesDetal selectConsum(String code){
+		ConsumablesDetal consumable=consumableDao.select(code);
 		return consumable;
 	}
 	
