@@ -77,6 +77,13 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	$(function() {
+		$("#SelListServlet").click(function() {
+			$("#SelListServlet").addClass("active");
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -109,7 +116,7 @@
 				<li id="Allocation"><a href="<%=path%>/Allocation">低值易耗品调拨申请</a></li>
 				<li id="showAllocation"><a href="<%=path%>/showAllocation">低值易耗品调拨查询</a></li>
 				<li id="checkAllocation"><a>低值易耗品调拨审批</a></li>
-				<li><a href="#">低值易耗品处置（报废）</a></li>
+				<li id="SelListServlet"><a href="<%=path%>/SelListServlet">低值易耗品处置（报废）</a></li>
 				<li><a href="#">易耗品台帐一览</a></li>
 			</ul>
 
