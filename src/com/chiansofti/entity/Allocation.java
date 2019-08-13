@@ -1,6 +1,6 @@
 package com.chiansofti.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class Allocation {
 	
 	private int id;
 	//详情表编号
-	private String detalid;
+	private int detalid;
 	//调拨表编号
 	private String allocationId;
 	//调拨人
@@ -27,7 +27,7 @@ public class Allocation {
 	//审批记录
 	List<RecodeAllocation> list = new ArrayList<>();
 	//调拨易耗品
-	TestConsumable ConsumList = new TestConsumable();
+	ConsumablesDetal consumable = new ConsumablesDetal();
 	
 	public int getId() {
 		return id;
@@ -36,10 +36,10 @@ public class Allocation {
 		this.id = id;
 	}
 	
-	public String getDetalid() {
+	public int getDetalid() {
 		return detalid;
 	}
-	public void setDetalid(String detalid) {
+	public void setDetalid(int detalid) {
 		this.detalid = detalid;
 	}
 	public String getAllocationId() {
@@ -84,9 +84,15 @@ public class Allocation {
 	public void setState(int state) {
 		this.state = state;
 	}
+	
+	public ConsumablesDetal getConsumable() {
+		return consumable;
+	}
+	public void setConsumable(ConsumablesDetal consumable) {
+		this.consumable = consumable;
+	}
 	public Allocation() {
 		super();
 	}
-	
 	
 }

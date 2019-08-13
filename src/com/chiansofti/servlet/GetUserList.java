@@ -26,7 +26,7 @@ public class GetUserList extends HttpServlet {
 	    throws ServletException, IOException {
 	EmpServiceImpl esi = new EmpServiceImpl();
 	List<Emp> userList = esi.userList();
-	System.out.println(userList);
+	// System.out.println(userList);
 	res.setCharacterEncoding("utf-8");
 	JSONArray jsonArray = JSONArray.fromObject(userList);
 	res.getWriter().print(jsonArray);
