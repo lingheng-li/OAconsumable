@@ -10,9 +10,10 @@ public class Apply {
 	private String consumable_code;//易耗品编码
 	private String consumable_name;//易耗品名称
 	private BigDecimal consumable_price;//易耗品价格
-	private String consumable_number;//易耗品数量
+	private Integer consumable_number;//易耗品数量
 	private int courtyard_project;//院管项目
 	private int approval_status;//审批状态
+	private BigDecimal totalPrice;//总价
 	public String getTablenum() {
 		return tablenum;
 	}
@@ -49,11 +50,11 @@ public class Apply {
 	public void setConsumable_price(BigDecimal bd) {
 		this.consumable_price = bd;
 	}
-	public String getConsumable_number() {
+	public Integer getConsumable_number() {
 		return consumable_number;
 	}
-	public void setConsumable_number(String consumable_number) {
-		this.consumable_number = consumable_number;
+	public void setConsumable_number(Integer consumablenumber) {
+		this.consumable_number = consumablenumber;
 	}
 	public int getCourtyard_project() {
 		return courtyard_project;
@@ -67,10 +68,16 @@ public class Apply {
 	public void setApproval_status(int approval_status) {
 		this.approval_status = approval_status;
 	}
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	public Apply(String tablenum, String empno, Date create_time,
 			String consumable_code, String consumable_name,
-			BigDecimal consumable_price, String consumable_number,
-			int courtyard_project, int approval_status) {
+			BigDecimal consumable_price, Integer consumable_number,
+			int courtyard_project, int approval_status,BigDecimal totalPrice ) {
 		super();
 		this.tablenum = tablenum;
 		this.empno = empno;
@@ -81,9 +88,11 @@ public class Apply {
 		this.consumable_number = consumable_number;
 		this.courtyard_project = courtyard_project;
 		this.approval_status = approval_status;
+		this.totalPrice=totalPrice;
 	}
 	public Apply() {
 		super();
 	}
+
 
 }

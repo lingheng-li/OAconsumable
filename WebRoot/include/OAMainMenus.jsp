@@ -79,6 +79,20 @@
 </script>
 <script type="text/javascript">
 	$(function() {
+		$("#ApplyForward").click(function() {
+			$("#ApplyForward").addClass("active");
+		});  
+	});
+</script>
+<script type="text/javascript">
+	$(function() {
+		$("#ApplyFaceServlet").click(function() {
+			$("#ApplyFaceServlet").addClass("active");
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(function() {
 		$("#SelListServlet").click(function() {
 			$("#SelListServlet").addClass("active");
 		});
@@ -111,7 +125,8 @@
 			<ul class="nav navbar-nav">
 				<!-- <li class="active"><a href="#">低值易耗品购置申请<span
 						class="sr-only">(current1)</span></a></li> -->
-				<li><a href="#">低值易耗品购置申请</a></li>
+				<li id="ApplyForward"><a href="<%=path%>/ApplyForward">低值易耗品购置申请</a></li>
+				<li id="ApplyFaceServlet"><a href="<%=path%>/ApplyFaceServlet">低值易耗品购置申请审批</a></li>
 				<li id="checkAndAccept"><a href="<%=path%>/checkAndAccept">低值易耗品验收</a></li>
 				<li id="Allocation"><a href="<%=path%>/Allocation">低值易耗品调拨申请</a></li>
 				<li id="showAllocation"><a href="<%=path%>/showAllocation">低值易耗品调拨查询</a></li>
