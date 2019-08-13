@@ -10,121 +10,140 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <base href="<%=basePath%>">
     
     <title>My JSP 'Allocation.jsp' starting page</title>
+<script
+    src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <script type="text/javascript">
-	$(function(){
-		$("#button").click(function() {
-			$("#Allocation").addClass("active");
-		});
-	});
+
+/* 	$(document).ready(function () {
+	    $("#table").DataTable();
+	}); */
+  	var i =1;
+	//添加行
+	function addRow(){
+		    var rowTem ='<tr align="center" id="tr'+(i+1)+'">'
+		        +'<td style="width:100px'+'">'
+		        +'<input id="id'+i+'" name="id" type="text" class=".input-mini form-control" ></td>'
+				+'<td><input id="inp'+i+'" name="code" type="text" class=".input-mini form-control" value="" onblur="fun1('+i+')"></td>'
+				+'<td><!-- 低值易耗品名称 --> <input type="text" id="name'+i+'" class=".input-mini form-control" ></td>'
+				+'<td><!-- 表单编号 --> <input type="text" class=".input-mini form-control" id="tablenum'+i+'"></td>'
+				+'<td><!-- 数量 --> <input type="text" class=".input-mini form-control" value="1"></td>'
+				+'<td><!-- 单价 --> <input type="text" class=".input-mini form-control" id="price'+i+'"></td>'
+				+'<td><!-- 使用人 --><input type="text" class=".input-mini form-control" id="user'+i+'"></td>'
+				+'<td><!-- 预使用人 --><input type="text" name="user" class=".input-mini form-control" id="user1'+i+'"></td>'
+		/* 		+ '<td align="center"><input type="button"  onclick=delRow('+i+') ></td>' */
+				+'</tr>';
+		      $("#tr").after(rowTem);
+			  i++;
+	}
+	//删除行
+	function delRow(_id) {
+	    $("#tr"+_id).hide();
+	    i--;
+	}
+	var ids=[];
+    function fun1(a){
+		$.post(
+			"AddAllocation",
+			{code:$("#inp"+a).val()}, 
+			function(data){
+				var id=data.id;
+				ids[a-1]=id;
+				var name=data.consumable_name;
+				var tablenum=data.tablenum;
+				var price=data.tax_price;
+				var user=data.user;
+				$("#id"+a).attr("value",id);
+				$("#name"+a).attr("value",name);
+				$("#tablenum"+a).attr("value",tablenum);
+				$("#price"+a).attr("value",price);
+				$("#user"+a).attr("value",user);
+			},
+			"json"
+			);
+	};
 </script>
 <style type="text/css">
 td {
 	vertical-align: middle;
 }
-
 </style>
-
   </head>
-  
   <body>
-  <jsp:include page="/include/OAMainMenus.jsp" flush="false" />
-  <hr />
-  	<form action="" method="post">
+   <jsp:include page="/include/OAMainMenus.jsp" flush="true" >
+  	<jsp:param name="thisMuen" value="Allocation" /> 
+  </jsp:include>
 		<table class="table table-bordered">
 			<tr>
-				<td colspan="8" align="center">低值易耗品调拨审批单</td>
+				<td colspan="8" align="center">低值易耗品调拨申请单</td>
 			</tr>
     		<tr align="center">
     			<td colspan="2">所在单位</td>
-    			<td colspan="2">${emp.deptno}</td>
+    			<td colspan="1"><input type="text" class=".input-mini form-control" value="${emp.deptno}"></td>
     			<td colspan="2">调入部门</td>
-    			<td colspan="2"><input type="text" class=".input-mini form-control"></td>
+    			<td colspan="2"><input type="text" class=".input-mini form-control" id="rdeptno"></td>
+    			<td><input type="button" id="btn1" onclick="addRow()" value="添加"></td>
     		</tr>
+			<tr align="center" id="tr">
+				<td>序号</td>
+				<td>低值易耗品编码</td>
+				<td>低值易耗品名称</td>
+				<td>对应购置计划审批表编号</td>
+				<td>数量</td>
+				<td>购入价（元）</td>
+				<td>使用人</td>
+				<td>预使用人</td>
+			</tr>
 			<tr align="center">
-				<td style="vertical-align:middle;">序号</td>
-				<td style="vertical-align:middle;">低值易耗品编码</td>
-				<td style="vertical-align:middle;">低值易耗品名称</td>
-				<td style="vertical-align:middle;">对应购置计划审批表编号</td>
-				<td style="vertical-align:middle;">数量</td>
-				<td style="vertical-align:middle;">购入价（元）</td>
-				<td style="vertical-align:middle;">使用人</td>
-				<td style="vertical-align:middle;"><button onclick="addtr()">添加</button></td>
-			</tr>	
-    		<tr>
-				<td style="vertical-align:middle; width:50px">
-					<!-- 序号 --> 1
-				</td>
-				<td>
-					<!-- 低值易耗品编码 --> <input type="text"
-					class=".input-mini form-control">
-				</td>
-				<td>
-					<!-- 低值易耗品名称 --> <input type="text"
-					class=".input-mini form-control">
-				</td>
-				<td>
-					<!-- 低值易耗品名称 --> <input type="text"
-					class=".input-mini form-control">
-				</td>
-				<td>
-					<!-- 数量 --> <input type="text" class=".input-mini form-control">
-				</td>
-				<td>
-					<!-- 单价 --> <input type="text" class=".input-mini form-control">
-				</td>
-
-				<td>
-					<!-- 使用人 -->
-					<div class="input-group">
-						<input type="text" class="form-control" aria-label="...">
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-default dropdown-toggle"
-								data-toggle="dropdown" aria-haspopup="true"
-								aria-expanded="false">
-								&nbsp;<span class="glyphicon glyphicon-user"></span>
-							</button>
-							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-							</ul>
-						</div>
-					</div>
-				</td>
-			</tr>
-						<tr>
-				<td colspan="2" style="vertical-align:middle;">调出部门审批：</td>
-				<td>
-
-				</td>
-				<td style="vertical-align:middle;">调入部门审批：</td>
+				<td colspan="2">调出部门审批：</td>
 				<td></td>
-				<td style="vertical-align:middle;">财务职产部核实盖章：</td>
-				<td colspan="3" style="vertical-align:middle;"></td>
+				<td>调入部门审批：</td>
+				<td></td>
+				<td>财务职产部核实盖章：</td>
+				<td colspan="2"></td>
+			</tr>
+			<tr align="center">
+				<td colspan="2" >负责人：</td>
+				<td></td>
+				<td>负责人：</td>
+				<td colspan="1" ></td>
+				<td>负责人：</td>
+				<td colspan="2"></td>
+			</tr>
+			<tr align="center">
+				<td colspan="2" >经办人：</td>
+				<td>${emp.empname}</td>
+				<td>经办人：</td>
+				<td colspan="1"></td>
+				<td>经办人：</td>
+				<td colspan="2"></td>
 			</tr>
 			<tr>
-				<td colspan="2" style="vertical-align:middle;">负责人：</td>
-				<td style="vertical-align:middle;"></td>
-				<td style="vertical-align:middle;">负责人：</td>
-				<td colspan="1" style="vertical-align:middle;"></td>
-				<td style="vertical-align:middle;">负责人：</td>
-				<td colspan="1" style="vertical-align:middle;"></td>
-			</tr>
-			<tr>
-				<td colspan="2" style="vertical-align:middle;">经办人：</td>
-				<td style="vertical-align:middle;"></td>
-				<td style="vertical-align:middle;">经办人：</td>
-				<td colspan="1" style="vertical-align:middle;"></td>
-				<td style="vertical-align:middle;">经办人：</td>
-				<td colspan="1" style="vertical-align:middle;"></td>
-			</tr>
-			<tr>
-				<td colspan="9" align="center"><button style="width:100px;"
-						type="submit" class="btn btn-default btn-block">提交</button></td>
+				<td colspan="8" align="center"><button style="width:100px;"
+					id="btn" onclick="up()" class="btn btn-default btn-block">提交</button></td>
 			</tr>
     	</table>
-    </form>
   </body>
+  <script type="text/javascript">
+   	function up(){
+   		var users=[];
+   		for(var j=0;j<i-1;j++){
+   			users[j]=$("#user1"+(j+1)).val();
+   		}
+   		ids=JSON.stringify(ids);
+   		users=JSON.stringify(users);
+  		$.post(
+  			"InsertAllocationable",
+  			{rdeptno:$("#rdeptno").val(),"ids":ids,"users":users},
+  			success,
+  			"json"
+  		);
+  	};
+  	function success(datas){
+  		if(datas==1){
+  			window.location.href="showAllocation";
+  		}else{
+  			alert("提交失败");
+  		}
+  	}
+  </script>
 </html>

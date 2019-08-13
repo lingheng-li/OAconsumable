@@ -1,16 +1,22 @@
 package com.chiansofti.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.chiansofti.dao.AllocationDao;
+import com.chiansofti.dao.TestConsumableDao;
 import com.chiansofti.entity.Allocation;
 import com.chiansofti.entity.Emp;
+import com.chiansofti.entity.TestConsumable;
 import com.chiansofti.service.AllocationService;
 
 public class AllocationServiceImpl implements AllocationService{
 
 	AllocationDao allocationDao = new AllocationDao();
+	TestConsumableDao consumableDao = new TestConsumableDao();
+	int i;
 	@Override
 	//查询自己办理的调拨单以及
 	public List<Allocation> select(Emp emp) {
@@ -67,16 +73,54 @@ public class AllocationServiceImpl implements AllocationService{
 		return list;
 	}
 
-	@Override
-	public Allocation update() {
-		// TODO Auto-generated method stub
-		return null;
+	//审批时调用
+	public int update(String state,String allocationid) {
+		int a=Integer.parseInt(state);
+		boolean flag = true;
+		int result=0;
+		if(a==9){
+			List<Allocation> list=allocationDao.selectAll(allocationid);
+			flag = allocationDao.insertDetal(list);
+		}
+		if(flag){
+			result=allocationDao.update(a, allocationid);
+		}
+		return result;
 	}
 
+	//新增调拨
 	@Override
-	public Allocation insert() {
-		// TODO Auto-generated method stub
-		return null;
+	public void insert(String[] datas,String[] user, String rdeptno,Emp emp) {
+		i++;
+		List<Allocation> list= new ArrayList<>();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		int year= calendar.get(calendar.YEAR);
+		String aid="A-"+year+"-0"+i;
+		Date time =new Date(System.currentTimeMillis());
+		for (int i = 0; i < datas.length; i++) {
+			Allocation a = new Allocation();
+			int id = Integer.parseInt(datas[i]);
+			a.setDetalid(id);
+			a.setAllocationId(aid);
+			a.setDealer(emp.getEmpname());
+			a.setUsername(user[i]);
+			a.setRdeptno(rdeptno);
+			a.setFdeptno(emp.getDeptno());
+			a.setCreate_time(time);
+			list.add(a);
+		}
+		allocationDao.addAllocation(list,emp);
 	}
-
+	
+	public TestConsumable selectConsum(String code){
+		TestConsumable consumable=consumableDao.select(code);
+		return consumable;
+	}
+	
+	//查询调拨表
+	public List<Allocation> select(String id){
+		List<Allocation> list =allocationDao.selectAll(id);
+		return list;
+	}
 }

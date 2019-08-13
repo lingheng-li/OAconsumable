@@ -10,6 +10,8 @@ public class TestConsumable {
 	private String consumable_code;
 	//易耗品名称
 	private String consumable_name;
+	//使用人
+	private String user;
 	//单价
 	private double tax_price;
 	//部门编号
@@ -54,6 +56,12 @@ public class TestConsumable {
 	}
 	public void setDeptno(String deptno) {
 		this.deptno = deptno;
+	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
 	}
 	
 }

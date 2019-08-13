@@ -7,6 +7,5 @@ import com.chiansofti.entity.Emp;
 
 public interface AllocationService {
 	public List<Allocation> select(Emp emp);
-	public Allocation update();
-	public Allocation insert();
+	public void insert(String[] list,String[] user,String rfeptno,Emp emp);
 }

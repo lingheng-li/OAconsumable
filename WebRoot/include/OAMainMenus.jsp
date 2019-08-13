@@ -63,6 +63,20 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	$(function() {
+		$("#Allocation").click(function() {
+			$("#Allocation").addClass("active");
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(function() {
+		$("#checkAllocation").click(function() {
+			$("#checkAllocation").addClass("active");
+		});
+	});
+</script>
 </head>
 
 <body>
@@ -92,7 +106,9 @@
 						class="sr-only">(current1)</span></a></li> -->
 				<li><a href="#">低值易耗品购置申请</a></li>
 				<li id="checkAndAccept"><a href="<%=path%>/checkAndAccept">低值易耗品验收</a></li>
-				<li id="showAllocation"><a href="<%=path%>/showAllocation">低值易耗品调拨</a></li>
+				<li id="Allocation"><a href="<%=path%>/Allocation">低值易耗品调拨申请</a></li>
+				<li id="showAllocation"><a href="<%=path%>/showAllocation">低值易耗品调拨查询</a></li>
+				<li id="checkAllocation"><a>低值易耗品调拨审批</a></li>
 				<li><a href="#">低值易耗品处置（报废）</a></li>
 				<li><a href="#">易耗品台帐一览</a></li>
 			</ul>
