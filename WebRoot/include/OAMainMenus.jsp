@@ -104,6 +104,7 @@
 			$("#stangingbook").addClass("active");
 		});
 	});
+</script>
 </head>
 
 <body>
