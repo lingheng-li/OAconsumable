@@ -12,7 +12,8 @@
 <head>
 <base href="<%=basePath%>">
 
- <title>OA鏄撹�楀搧绠＄悊绯荤粺</title>
+ <title>OA易耗品管理系统</title>
+ <title>OA易耗品管理系统</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
