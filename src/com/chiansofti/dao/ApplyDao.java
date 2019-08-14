@@ -55,7 +55,7 @@ public class ApplyDao {
 			if(emp.getPower()==0){
 				//获得session内的员工编号
 				String empno=emp.getEmpno();
-				ps= conn.prepareStatement("select * from consumable_apply where empno=? and approval_status=0");
+				ps= conn.prepareStatement("select * from consumable_apply where empno=? and approval_status in (0,2)");
 				ps.setString(1, empno);
 				rs = ps.executeQuery();
 				while(rs.next()){
@@ -74,6 +74,12 @@ public class ApplyDao {
 					//前端显示的总价为单价与数量的乘积，使用BigDecimal特有的方法multiply()
 					BigDecimal   totalPrice = consumable_price.multiply(consumable_number);
 					apply.setTotalPrice(totalPrice);//总价
+					int c=rs.getInt("approval_status");//审批状态
+					if(c==0){
+						apply.setApplystatus("未审批");//显示未审批状态
+					}else{
+						apply.setApplystatus("已驳回");//显示驳回状态
+					}
 					list.add(apply);
 				     }
 				}else{
@@ -115,6 +121,22 @@ public class ApplyDao {
 		conn=JDBCUtil.getMySqlConn();
 		//插入语句
 		String sql="update consumable_apply set approval_status=1 where tablenum=?";
+		ps=conn.prepareStatement(sql);
+		ps.setObject(1, tablenum);
+		ps.execute();	
+	}catch (Exception e) {
+		e.printStackTrace();
+	}finally{
+		JDBCUtil.close(rs, ps, conn);
+	 }
+   }
+	
+	//修改审核状态方法
+	public void updateApplystatus(String tablenum) {
+		try{
+		conn=JDBCUtil.getMySqlConn();
+		//插入语句
+		String sql="update consumable_apply set approval_status=2 where tablenum=?";
 		ps=conn.prepareStatement(sql);
 		ps.setObject(1, tablenum);
 		ps.execute();	

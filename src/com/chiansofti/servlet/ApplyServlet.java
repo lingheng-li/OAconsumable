@@ -37,6 +37,7 @@ public class ApplyServlet extends HttpServlet {
 		@Override
         protected void service(HttpServletRequest req, HttpServletResponse resp)
         		throws ServletException, IOException {
+        	//插入申请表的相关数据
         	//1.设置编码
     		req.setCharacterEncoding("utf-8");
     		resp.setCharacterEncoding("utf-8");

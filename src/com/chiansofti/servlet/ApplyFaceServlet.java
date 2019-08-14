@@ -22,10 +22,12 @@ public class ApplyFaceServlet extends HttpServlet {
         @Override
         protected void service(HttpServletRequest req, HttpServletResponse resp)
         		throws ServletException, IOException {
+        	//查询申请单信息
         	//1.设置编码
     		req.setCharacterEncoding("utf-8");
     		resp.setCharacterEncoding("utf-8");
     		resp.setContentType("text/html;charset=utf-8");
+    		
     		HttpSession session = req.getSession();
     		Emp emp = (Emp) session.getAttribute("emp");
     	    List<Apply> list=new ArrayList<Apply>();

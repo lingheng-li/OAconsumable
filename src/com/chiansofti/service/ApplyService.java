@@ -12,4 +12,6 @@ public interface ApplyService {
 	List<Apply> select(Emp emp);
 	
 	void updateApply(String tablenum);
+	
+	void updateStatus(String tablenum);
 }

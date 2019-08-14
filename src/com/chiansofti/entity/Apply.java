@@ -14,6 +14,13 @@ public class Apply {
 	private int courtyard_project;//院管项目
 	private int approval_status;//审批状态
 	private BigDecimal totalPrice;//总价
+	private String applystatus;//显示状态
+	public String getApplystatus() {
+		return applystatus;
+	}
+	public void setApplystatus(String applystatus) {
+		this.applystatus = applystatus;
+	}
 	public String getTablenum() {
 		return tablenum;
 	}
@@ -77,7 +84,7 @@ public class Apply {
 	public Apply(String tablenum, String empno, Date create_time,
 			String consumable_code, String consumable_name,
 			BigDecimal consumable_price, Integer consumable_number,
-			int courtyard_project, int approval_status,BigDecimal totalPrice ) {
+			int courtyard_project, int approval_status,BigDecimal totalPrice,String applystatus ) {
 		super();
 		this.tablenum = tablenum;
 		this.empno = empno;
@@ -89,6 +96,7 @@ public class Apply {
 		this.courtyard_project = courtyard_project;
 		this.approval_status = approval_status;
 		this.totalPrice=totalPrice;
+		this.applystatus=applystatus;
 	}
 	public Apply() {
 		super();

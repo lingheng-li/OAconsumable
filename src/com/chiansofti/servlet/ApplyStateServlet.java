@@ -10,15 +10,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.chiansofti.service.ApplyService;
 import com.chiansofti.serviceImpl.ApplyServiceImpl;
-@WebServlet("/ApplyAuditServlet")
-public class ApplyAuditServlet extends HttpServlet{
+@WebServlet("/ApplystatusServlet")
+public class ApplyStateServlet extends HttpServlet{
          @Override
         protected void service(HttpServletRequest req, HttpServletResponse resp)
         		throws ServletException, IOException {
              //修改审批状态
         	  String tablenum=req.getParameter("tablenumid");
         	  ApplyService applyService=new ApplyServiceImpl();
-      		  applyService.updateApply(tablenum);
+      		  applyService.updateStatus(tablenum);
         	  resp.getWriter().print("hhh");
         }
 }

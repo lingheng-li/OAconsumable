@@ -25,5 +25,10 @@ public class ApplyServiceImpl implements ApplyService {
 	public void updateApply(String tablenum) {
 		ad.updateApply(tablenum);
 	}
+	@Override
+	public void updateStatus(String tablenum) {
+		ad.updateApplystatus(tablenum);
+		
+	}
 
 }

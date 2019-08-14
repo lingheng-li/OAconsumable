@@ -34,9 +34,21 @@ function  tteess(id){
 			success1
 		);
 	}
+function  bbbaa(id){
+	$.get(
+		"ApplystatusServlet",
+		{tablenumid:$("#tablenum"+id).val()},
+		success2
+	);
+}
 
 function success1(empList){
 	alert("审核成功！");
+	window.location.reload();
+};
+
+function success2(empList){
+	alert("驳回成功！");
 	window.location.reload();
 };
 </script>
@@ -95,7 +107,8 @@ td {
 				<td rowspan="2" colspan="1" style="vertical-align:middle;">低值易耗品名称</td>
 				<td rowspan="2" colspan="1" style="vertical-align:middle;">单价（元）</td>
 				<td rowspan="2" colspan="2" style="vertical-align:middle;">数量</td>
-				<td rowspan="2" colspan="3" style="vertical-align:middle;">总价（元）</td>
+				<td rowspan="2" colspan="2" style="vertical-align:middle;">总价（元）</td>
+				<td rowspan="2" colspan="1" style="vertical-align:middle;">审核状态</td>
 			</tr>
 		  	 <tr align="center">
 			</tr> 
@@ -107,7 +120,8 @@ td {
 						<td colspan="1" class="value"><input class=".input-mini form-control" name="yhpCode"  value="${Applylo.consumable_name}" ignore="ignore" datatype="*1-50" readonly></td>
 						<td colspan="1" class="value"><input class=".input-mini form-control" name="price"  value="${Applylo.consumable_price}" ignore="ignore" datatype="*1-50" readonly></td>
 						<td colspan="2" class="value"><input class=".input-mini form-control" name="amount"  value="${Applylo.consumable_number}" ignore="ignore" datatype="*1-100" readonly></td>
-						<td colspan="3" class="value"><input class=".input-mini form-control" name="totalPrice"  value="${Applylo.totalPrice}" ignore="ignore" datatype="*1-100" readonly></td>
+						<td colspan="2" class="value"><input class=".input-mini form-control" name="totalPrice"  value="${Applylo.totalPrice}" ignore="ignore" datatype="*1-100" readonly></td>
+						<td colspan="1" class="value"><input class=".input-mini form-control" name="applystatus"  value="${Applylo.applystatus}" ignore="ignore" datatype="*1-100" readonly></td>
 					</tr>
 				</c:forEach>
  			</c:if>	
@@ -120,9 +134,9 @@ td {
 				<td rowspan="2" colspan="1"style="vertical-align:middle;">低值易耗品编码</td>
 				<td rowspan="2" colspan="1" style="vertical-align:middle;">低值易耗品名称</td>
 				<td rowspan="2" colspan="1" style="vertical-align:middle;">单价（元）</td>
-				<td rowspan="2" colspan="2" style="vertical-align:middle;">数量</td>
-				<td rowspan="2" colspan="2" style="vertical-align:middle;">总价（元）</td>
-				<td rowspan="2" colspan="1" style="vertical-align:middle;">操作</td>
+				<td rowspan="2" colspan="1" style="vertical-align:middle;">数量</td>
+				<td rowspan="2" colspan="1" style="vertical-align:middle;">总价（元）</td>
+				<td rowspan="2" colspan="3" style="vertical-align:middle;">操作</td>
 			</tr>
 		  	 <tr align="center">
 			</tr> 
@@ -133,9 +147,12 @@ td {
 						<td colspan="1" class="value"><input class=".input-mini form-control" name="yhpName"  value="${Applylo.consumable_code}" ignore="ignore" datatype="*1-50" readonly></td>
 						<td colspan="1" class="value"><input class=".input-mini form-control" name="yhpCode"  value="${Applylo.consumable_name}" ignore="ignore" datatype="*1-50" readonly></td>
 						<td colspan="1" class="value"><input class=".input-mini form-control" name="price"  value="${Applylo.consumable_price}" ignore="ignore" datatype="*1-50" readonly></td>
-						<td colspan="2" class="value"><input class=".input-mini form-control" name="amount"  value="${Applylo.consumable_number}" ignore="ignore" datatype="*1-100" readonly></td>
-						<td colspan="2" class="value"><input class=".input-mini form-control" name="totalPrice"  value="${Applylo.totalPrice}" ignore="ignore" datatype="*1-100" readonly></td>
-						<td colspan="1" class="value" align="center"><button onclick="tteess(${status.index})" style="width:100px;" type="button" class="btn btn-default btn-block">审核</button></td>		
+						<td colspan="1" class="value"><input class=".input-mini form-control" name="amount"  value="${Applylo.consumable_number}" ignore="ignore" datatype="*1-100" readonly></td>
+						<td colspan="1" class="value"><input class=".input-mini form-control" name="totalPrice"  value="${Applylo.totalPrice}" ignore="ignore" datatype="*1-100" readonly></td>
+						<td colspan="3" class="value" align="center">
+						<button onclick="tteess(${status.index})" style="width:100px;" type="button" class="btn btn-default btn-block">审核</button>
+						<button onclick="bbbaa(${status.index})" style="width:100px;" type="button" class="btn btn-default btn-block">驳回</button>
+						</td>		
 					</tr>
 				</c:forEach>
  			</c:if>	

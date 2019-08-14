@@ -16,7 +16,7 @@ public class ApplyForward extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-
+         //页面跳转申请提交页面
 	req.getRequestDispatcher("/Appaly.jsp").forward(req, res);
     }
 }
