@@ -9,6 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
   <head>
     <base href="<%=basePath%>">
+    <title>低值易耗品调拨审批</title>
 <script
     src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <style type="text/css">
@@ -52,7 +53,7 @@ td {
 				<td><!-- 表单编号 --> <input type="text" class=".input-mini form-control" value="${allocation.consumable.tablenum}"></td>
 				<td><!-- 数量 --> <input type="text" class=".input-mini form-control" value="1"></td>
 				<td><!-- 单价 --> <input type="text" class=".input-mini form-control" value="${allocation.consumable.tax_price}"></td>
-				<td><!-- 使用人 --><input type="text" class=".input-mini form-control" value="${allocation.consumable.user}"></td>
+				<td><!-- 使用人 --><input type="text" class=".input-mini form-control" value="${allocation.consumable.emp_name}"></td>
 				<td><!-- 预使用人 --><input type="text" name="user" class=".input-mini form-control" value="${allocation.username}"></td>
 				</tr>
 			</c:forEach>

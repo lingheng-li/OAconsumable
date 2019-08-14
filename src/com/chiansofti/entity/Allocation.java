@@ -27,7 +27,7 @@ public class Allocation {
 	//审批记录
 	List<RecodeAllocation> list = new ArrayList<>();
 	//调拨易耗品
-	TestConsumable consumable = new TestConsumable();
+	ConsumablesDetal consumable = new ConsumablesDetal();
 	
 	public int getId() {
 		return id;
@@ -85,10 +85,10 @@ public class Allocation {
 		this.state = state;
 	}
 	
-	public TestConsumable getConsumable() {
+	public ConsumablesDetal getConsumable() {
 		return consumable;
 	}
-	public void setConsumable(TestConsumable consumable) {
+	public void setConsumable(ConsumablesDetal consumable) {
 		this.consumable = consumable;
 	}
 	public Allocation() {

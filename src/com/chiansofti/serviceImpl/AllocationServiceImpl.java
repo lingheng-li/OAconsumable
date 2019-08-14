@@ -8,8 +8,8 @@ import java.util.List;
 import com.chiansofti.dao.AllocationDao;
 import com.chiansofti.dao.TestConsumableDao;
 import com.chiansofti.entity.Allocation;
+import com.chiansofti.entity.ConsumablesDetal;
 import com.chiansofti.entity.Emp;
-import com.chiansofti.entity.TestConsumable;
 import com.chiansofti.service.AllocationService;
 
 public class AllocationServiceImpl implements AllocationService{
@@ -25,7 +25,7 @@ public class AllocationServiceImpl implements AllocationService{
 		int state=0;
 		list = allocationDao.select(emp.getEmpname(),state);
 		if(emp.getPower()==0){
-			if("a102".equals(emp.getDeptno())){
+			if("d102".equals(emp.getDeptno())){
 				state=6;
 				list2=allocationDao.select(emp.getDeptno(),state);
 				for (Allocation allocation : list2) {
@@ -35,7 +35,7 @@ public class AllocationServiceImpl implements AllocationService{
 			state=3;
 		}else if(emp.getPower()==1){
 			state=1;
-			if("a102".equals(emp.getDeptno())){
+			if("d102".equals(emp.getDeptno())){
 				state=7;
 				list2=allocationDao.select(emp.getDeptno(),state);
 				for (Allocation allocation : list2) {
@@ -51,7 +51,7 @@ public class AllocationServiceImpl implements AllocationService{
 			}
 		}else if(emp.getPower()==2){
 			state=2;
-			if("a102".equals(emp.getDeptno())){
+			if("d102".equals(emp.getDeptno())){
 				state=8;
 				list2=allocationDao.select(emp.getDeptno(),state);
 				for (Allocation allocation : list2) {
@@ -78,7 +78,7 @@ public class AllocationServiceImpl implements AllocationService{
 		int a=Integer.parseInt(state);
 		boolean flag = true;
 		int result=0;
-		if(a==9){
+		if(a==8){
 			List<Allocation> list=allocationDao.selectAll(allocationid);
 			flag = allocationDao.insertDetal(list);
 		}
@@ -96,7 +96,7 @@ public class AllocationServiceImpl implements AllocationService{
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		int year= calendar.get(calendar.YEAR);
-		String aid="A-"+year+"-0"+i;
+		String aid="A-"+year+"-"+System.currentTimeMillis();
 		Date time =new Date(System.currentTimeMillis());
 		for (int i = 0; i < datas.length; i++) {
 			Allocation a = new Allocation();
@@ -113,8 +113,8 @@ public class AllocationServiceImpl implements AllocationService{
 		allocationDao.addAllocation(list,emp);
 	}
 	
-	public TestConsumable selectConsum(String code){
-		TestConsumable consumable=consumableDao.select(code);
+	public ConsumablesDetal selectConsum(String code,Emp emp){
+		ConsumablesDetal consumable=consumableDao.select(code,emp);
 		return consumable;
 	}
 	

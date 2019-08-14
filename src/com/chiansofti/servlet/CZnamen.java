@@ -30,7 +30,7 @@ public class CZnamen extends HttpServlet {
 			// 封装到集合中
 			List<ChuZhiName> name = chuzhinameimpl.name();
 			/********** 下面是封装集合到req属性中并回调到原界面 *****************/
-			System.out.println(name.toString());
+//			System.out.println(name.toString());
 			resp.setCharacterEncoding("UTF-8");
 			resp.getWriter().print(JSONArray.fromObject(name).toString());
 		}

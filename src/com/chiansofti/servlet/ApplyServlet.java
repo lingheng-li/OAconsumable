@@ -12,12 +12,27 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.chiansofti.entity.Apply;
+import com.chiansofti.entity.Emp;
 import com.chiansofti.service.ApplyService;
 import com.chiansofti.serviceImpl.ApplyServiceImpl;
+import com.mysql.jdbc.StringUtils;
 @WebServlet("/apply")
 public class ApplyServlet extends HttpServlet {
+	
+	
+	 /**
+     * 字符串编程数组
+     * @return
+     */
+     public static String[] changToArrar(String str){
+      str = str.substring(1, str.length()-1);
+      str = str.replace("\"", "");
+      String[] str1 = str.split(",");
+         return str1;
+     }
         @SuppressWarnings("deprecation")
 		@Override
         protected void service(HttpServletRequest req, HttpServletResponse resp)
@@ -26,9 +41,11 @@ public class ApplyServlet extends HttpServlet {
     		req.setCharacterEncoding("utf-8");
     		resp.setCharacterEncoding("utf-8");
     		resp.setContentType("text/html;charset=utf-8");
-    		
-        	List<Apply> list=new ArrayList<Apply>();
         	
+        	//使用session获取当前登录人的信息
+        	HttpSession session=req.getSession();
+        	
+        	Emp emp=(Emp) session.getAttribute("emp");
         	
         	//获取当前年份（使用Calendar函数）
         	//初始化日历
@@ -38,29 +55,36 @@ public class ApplyServlet extends HttpServlet {
         	//获取当前年份
         	String year=String.valueOf(calendar.get(Calendar.YEAR));
         	
-        	//申请单编号（自动生成，格式：D年份-部门编号-序号）
-        	String Application="D"+year+"-"+15+"-"+1;
+        	//申请单编号（自动生成，格式：D年份-部门编号-序号(毫秒数))
+        	long time=System.currentTimeMillis();
+        	String Application="D"+year+"-"+emp.getDeptno()+"-"+time;
         	
-        	//获取当前表单生成的时间
+        	//获取当前申请单创建的时间
         	Date create_time=new Date(System.currentTimeMillis());
         	
-        	//获取当前申请人的编号
-        	String empno="1";
+        	//获取当前申请人的编码
+        	String empno=emp.getEmpno();
         	//获取是否为院管项目
         	int courtyard_project=0;
         	//获取审批状态
         	int approval_status=0;
-        	
+        	if(emp.getPower()==0){
+        	  approval_status=0;
+        	}else{
+        	  approval_status=1;
+        	}
+        	//标识id
+        	String  consumableid[]=changToArrar(req.getParameter("consumableid"));
         	//易耗品编号
-        	String  consumable_code[]=req.getParameterValues("consumable_code");
+        	String  consumable_code[]=changToArrar(req.getParameter("consumable_code"));
         	//易耗品名称
-        	String  consumable_name[]=req.getParameterValues("consumable_name");
+        	String  consumable_name[]=changToArrar(req.getParameter("consumable_name"));
         	//易耗品数量
-        	String  consumable_number[]=req.getParameterValues("consumable_number");
+        	String  consumable_number[]=changToArrar(req.getParameter("consumable_number"));
         	//易耗品单价
-        	String  consumable_price[]=req.getParameterValues("consumable_price");
+        	String  consumable_price[]=changToArrar(req.getParameter("consumable_price"));
         	
-        	for(int a=0;a<consumable_code.length;a++){
+        	for(int a=0;a<consumableid.length;a++){
         		if(consumable_code!=null){
         		Apply apply=new Apply();
         		//传入申请单编号
@@ -74,7 +98,8 @@ public class ApplyServlet extends HttpServlet {
         		//传入易耗品名称
         		apply.setConsumable_name(consumable_name[a]);
         		//传入易耗品数量
-        		apply.setConsumable_number(consumable_number[a]);
+        		Integer consumablenumber=Integer.valueOf(consumable_number[a]);
+        		apply.setConsumable_number(consumablenumber);
         		//传入易耗品单价
         		BigDecimal bd=new BigDecimal(consumable_price[a]);
         		bd=bd.setScale(2,BigDecimal.ROUND_HALF_UP );
@@ -83,23 +108,10 @@ public class ApplyServlet extends HttpServlet {
         		apply.setCourtyard_project(courtyard_project);
         		//传入审批状态
         		apply.setApproval_status(approval_status);
-        		
-        		list.add(apply);
+        		//调用impl实现层把数据传入dao中
         		ApplyService applyService=new ApplyServiceImpl();
         		applyService.add(apply);
-        		}
-        		
-        	
-        		
-        	}
-        	
-        	
-        	
-        	
-        	
-        	
-        	
-        	
-        	
-        }
+        		}	
+        	}		
+       }
 }

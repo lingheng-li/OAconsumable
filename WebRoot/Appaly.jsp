@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ page import="com.chiansofti.entity.Emp"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -13,70 +14,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<script type="text/javascript" src="js/jquery.min.js"></script> 
-<script type="text/javascript" src="js/jquery.dataTables.js"></script> 
-<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
-
-<!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
-	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-	crossorigin="anonymous">
-
-<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-	crossorigin="anonymous">
-	
+	src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js">
 </script>
 
 <script type="text/javascript">
-	$(function(){
-		$("#button").click(function(){
-			$.get(
-			"apply",
-			{consumable_code:$("#ip1").val(),consumable_name:$("#ip2").val(),consumable_number:$("#ip3").val(),consumable_price:$("#ip4").val()}, 
-			success,
-			"json"
-		);
-	})
-	});
 	
-	function success(empList){
-	alert("输入正确！");
-	}
-	
-	
-/* 	$(document).ready(function () {
-	    $("#table").DataTable();
-	}); */
-	var i =0;
+	var i =1;
 	//添加行
 	function addRow() {
 	    // i++;
 	    var rowTem = '<tr class="tr1' + i+ '">'
-	        + '<td align="center">'+(i+2)+'</td>'
-	        + '<td><input type="Text" class=".input-mini form-control" id="txt2' + i + '"/></td>'
-			+ '<td><input type="Text" class=".input-mini form-control" id="txt3' + i + '"/></td>'
-			+ '<td><input type="Text" class=".input-mini form-control" id="txt4' + i + '"/></td>'
-			+ '<td colspan="2"><input type="Text" class=".input-mini form-control" id="txt5' + i + '"/></td>'
-			+ '<td colspan="2"><input type="Text" class=".input-mini form-control" id="txt6' + i + '"/></td>'
+	        + '<td align="center" id="serialnumber' + i + '">'+(i+1)+'</td>'
+	        + '<td><input type="Text" class=".input-mini form-control" id="consumable_code' + i + '"/></td>'
+			+ '<td><input type="Text" class=".input-mini form-control" id="consumable_name' + i + '"/></td>'
+			+ '<td><input type="Text" class=".input-mini form-control" id="consumable_number' + i + '"/></td>'
+			+ '<td colspan="2"><input type="Text" class=".input-mini form-control" id="consumable_price' + i + '"/></td>'
+			+ '<td colspan="2"><input type="Text" class=".input-mini form-control" id="text' + i + '"/></td>'
 	        + '<td align="center"><input type="button"  onclick=delRow('+i+') style="background: url(images/delete.png)no-repeat; width:100px; height:40px;display:block;" ></td>'
 	        + '</tr>';
 	      $("#table tbody:last").append(rowTem);
 		  i++;
 	
-	}
+	};
 	//删除行
 	function delRow(_id) {
 	    $("#table .tr1"+_id).hide();
 	    i--;
-	}
+	};
+	function  sucommit(){
+		var consumableid=[];
+		var consumable_code=[];
+		var consumable_name=[];
+		var consumable_number=[];
+		var consumable_price=[];
+		for(var j=0;j<i;j++){
+			consumableid[j]=$("#serialnumber"+j).text();
+			consumable_code[j]=$("#consumable_code"+j).val();
+			consumable_name[j]=$("#consumable_name"+j).val();
+			consumable_number[j]=$("#consumable_number"+j).val();
+			consumable_price[j]=$("#consumable_price"+j).val();
+		}
+		consumableid=JSON.stringify(consumableid);
+		consumable_code=JSON.stringify(consumable_code);
+		consumable_name=JSON.stringify(consumable_name);
+		consumable_number=JSON.stringify(consumable_number);
+		consumable_price=JSON.stringify(consumable_price); 
+		$.post(
+			"apply",
+			{"consumableid":consumableid,"consumable_code":consumable_code,"consumable_name":consumable_name,"consumable_number":consumable_number,"consumable_price":consumable_price}, 
+			success
+			);
+	};
+	
+	function success(empList){
+		window.location.href="ApplyFaceServlet";
+	};
 </script>
 
 <style type="text/css">
@@ -86,10 +79,11 @@ td {
 </style>
 
 </head>
-
 <body>
+<jsp:include page="/include/OAMainMenus.jsp" flush="true">
+		<jsp:param name="thisMuen" value="ApplyForward" />
+	</jsp:include>
 		<table class="table table-bordered">
-			
 			<tr>
 				<td colspan="9" align="center">低值易耗品购置申请单</td>
 			</tr>
@@ -119,7 +113,7 @@ td {
 			
 			<tr align="center">
 				<td colspan="2" style="vertical-align:middle;">所在单位</td>
-				<td colspan="7" style="vertical-align:middle;"><input type="text" class=".input-mini form-control"></td>
+				<td colspan="7" style="vertical-align:middle;"><input type="text" value="${sessionScope.emp.deptno}"class=".input-mini form-control"></td>
 			</tr>
 			
        </table>
@@ -139,17 +133,17 @@ td {
 			
 			<tr> 
 			<!-- 序号 -->
-				<td colspan="1" align="center" >1</td>
+				<td colspan="1" id="serialnumber0" align="center" >1</td>
 			<!-- 低值易耗品编码 -->
-				<td colspan="1"><input id="ip1" type="text"class=".input-mini form-control"></td>
+				<td colspan="1"><input id="consumable_code0" type="text"class=".input-mini form-control"></td>
 			<!-- 低值易耗品名称 -->
-				<td colspan="1"><input id="ip2" type="text"class=".input-mini form-control"></td>
+				<td colspan="1"><input id="consumable_name0" type="text"class=".input-mini form-control"></td>
 			<!-- 数量 -->
-				<td colspan="1"><input id="ip3" type="text" class=".input-mini form-control"></td>
+				<td colspan="1"><input id="consumable_number0" type="text" class=".input-mini form-control"></td>
 			<!-- 单价 -->
-				 <td colspan="2"><input id="ip4" type="text" class=".input-mini form-control"></td>
+				<td colspan="2"><input id="consumable_price0" type="text" class=".input-mini form-control"></td>
 			<!-- 总价 -->
-				<td colspan="2"><input type="text" class=".input-mini form-control"></td>
+				<td colspan="2"><input type="text" value="可不填" class=".input-mini form-control"></td>
 			<!-- 删除 -->
 			    <td colspan="1" align="center"  nowrap><a href="#" onclick="delRow();" style="background: url(images/delete.png)no-repeat; width:100px; height:40px;display:block;"></a></td>
 			</tr>
@@ -157,22 +151,22 @@ td {
 			
 			<table class="table table-bordered">
 			<tr align="center">
-				<td colspan="3" style="vertical-align:middle;">经办人意见</td>
-				<td colspan="6" style="vertical-align:middle;"><input type="text" class=".input-mini form-control"></td>
+				<td colspan="3" style="vertical-align:middle;">经办人</td>
+				<td colspan="6" style="vertical-align:middle;"><input id="personname" value="${sessionScope.emp.empname}" type="text" class=".input-mini form-control"></td>
 			</tr>
 			
 			<tr align="center">
-				<td colspan="3" style="vertical-align:middle;">部门负责人意见</td>
-				<td colspan="6" style="vertical-align:middle;"><input type="text" class=".input-mini form-control"></td>
+				<td colspan="3" style="vertical-align:middle;">备注(说明)</td>
+				<td colspan="6" style="vertical-align:middle;"><input id="remarkmation" type="text" class=".input-mini form-control"></td>
 			</tr>
 			
 			<tr align="center">
 				<td colspan="3" style="vertical-align:middle;">部门(单位)盖章</td>
-				<td colspan="6" style="vertical-align:middle;"><input type="text" class=".input-mini form-control"></td>
+				<td colspan="6" style="vertical-align:middle;"><input type="text" class=".input-mini form-control" readonly></td>
 
 			<tr>
 				<td id ="button" colspan="9" align="center">
-					<button style="width:100px;"type="button" class="btn btn-default btn-block">提交</button>
+					<button style="width:100px;"type="button" onclick="sucommit()" class="btn btn-default btn-block">提交</button>
 				</td>
 			</tr>
 					

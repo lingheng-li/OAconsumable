@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'Allocation.jsp' starting page</title>
+    <title>低值易耗品调拨申请</title>
 <script
     src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <script type="text/javascript">
@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				var name=data.consumable_name;
 				var tablenum=data.tablenum;
 				var price=data.tax_price;
-				var user=data.user;
+				var user=data.emp_name;
 				$("#id"+a).attr("value",id);
 				$("#name"+a).attr("value",name);
 				$("#tablenum"+a).attr("value",tablenum);

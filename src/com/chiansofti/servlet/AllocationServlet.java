@@ -8,12 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
-
-import com.chiansofti.entity.TestConsumable;
 import com.chiansofti.serviceImpl.AllocationServiceImpl;
 
-//调整到调拨单填写页面
+//璋冩暣鍒拌皟鎷ㄥ崟濉啓椤甸潰
 @WebServlet("/Allocation")
 public class AllocationServlet extends HttpServlet{
 	AllocationServiceImpl allocationServiceImpl = new AllocationServiceImpl();

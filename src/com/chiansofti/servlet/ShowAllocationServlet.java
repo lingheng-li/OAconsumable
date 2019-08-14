@@ -24,9 +24,13 @@ public class ShowAllocationServlet extends HttpServlet{
 				throws ServletException, IOException {
 			HttpSession session = req.getSession();
 			Emp emp = (Emp) session.getAttribute("emp");
-			List<Allocation> list =new ArrayList<>();
-			list = allocationServiceImpl.select(emp);
-			req.setAttribute("list", list);
-			req.getRequestDispatcher("ShowAllocation.jsp").forward(req, resp);
+			if(emp!=null){
+				List<Allocation> list =new ArrayList<>();
+				list = allocationServiceImpl.select(emp);
+				req.setAttribute("list", list);
+				req.getRequestDispatcher("ShowAllocation.jsp").forward(req, resp);
+			}else{
+				resp.sendRedirect(req.getContextPath() + "/logOut");
+			}
 		}
 }

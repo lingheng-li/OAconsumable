@@ -15,23 +15,28 @@ import net.sf.json.JSONObject;
 import com.chiansofti.serviceImpl.CheckAndAcceptImpl;
 
 /**
- * 2019年8月8日 @CH
+ * 2019年8月13日 @CH
  */
-@WebServlet("/getApplyList")
-public class GetApplyListServlet extends HttpServlet {
+@WebServlet("/getCurApplyDetail")
+public class GetCurApplyDetail extends HttpServlet{
 
     private static final long serialVersionUID = 1L;
-
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res)
-	    throws ServletException, IOException {
-	// 获取购置计划表数据
-	String deptno = req.getParameter("p");
-	// System.out.println(deptno);
+            throws ServletException, IOException {
+	// 尝试从详情表中获取购置计划数据
+	String tablenum = req.getParameter("p");
 	CheckAndAcceptImpl caa = new CheckAndAcceptImpl();
-	Map<String, List<String>> applyMap = caa.getApplyList(deptno);
+	Map<String, List<String>> curApply=caa.getCurApplyDetail(tablenum);
+	System.out.println(curApply);
 	res.setCharacterEncoding("utf-8");
-	JSONObject jsonObject = JSONObject.fromObject(applyMap);
-	res.getWriter().print(jsonObject);
+	if(curApply.size()<1){
+	    res.getWriter().print(0);
+	}else{
+	    JSONObject jsonObject = JSONObject.fromObject(curApply);
+	    res.getWriter().print(jsonObject);	    
+	}
     }
+    
 }
+

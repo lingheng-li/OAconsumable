@@ -23,7 +23,6 @@ public class SelectServlet extends HttpServlet {
         req.setCharacterEncoding("utf-8");
         //2.获取传过来的值
         String name = req.getParameter("name");
-        System.out.println(name+"------------");
         ChuZhiNameimpl chuzhinameimpl = new ChuZhiNameimpl();
 		HttpSession session = req.getSession();
 		Emp emp = (Emp) session.getAttribute("emp");

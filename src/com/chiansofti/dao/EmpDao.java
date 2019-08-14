@@ -52,12 +52,12 @@ public class EmpDao {
 	    rs = ps.executeQuery();
 	    while (rs.next()) {
 		emp = new Emp();
-		// emp.setId(rs.getInt("id"));
+		emp.setId(rs.getInt("id"));
 		emp.setEmpno(rs.getString("empno"));
 		emp.setEmpname(rs.getString("empname"));
-		// emp.setDeptno(rs.getString("deptno"));
-		// emp.setPosition(rs.getString("position"));
-		// emp.setPower(rs.getInt("power"));
+		emp.setDeptno(rs.getString("deptno"));
+		emp.setPosition(rs.getString("position"));
+		emp.setPower(rs.getInt("power"));
 		userList.add(emp);
 	    }
 	} catch (SQLException e) {

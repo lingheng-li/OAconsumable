@@ -12,7 +12,7 @@
 <%-- <base href="<%=basePath%>"> --%>
 <base href="#">
 
-<title>My JSP 'OAMenus.jsp' starting page</title>
+<title>OA易耗品管理系统</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -72,8 +72,15 @@
 </script>
 <script type="text/javascript">
 	$(function() {
-		$("#checkAllocation").click(function() {
-			$("#checkAllocation").addClass("active");
+		$("#ApplyForward").click(function() {
+			$("#ApplyForward").addClass("active");
+		});  
+	});
+</script>
+<script type="text/javascript">
+	$(function() {
+		$("#ApplyFaceServlet").click(function() {
+			$("#ApplyFaceServlet").addClass("active");
 		});
 	});
 </script>
@@ -84,8 +91,14 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	$(function() {
+		$("#stangingbook").click(function() {
+			$("#stangingbook").addClass("active");
+		});
+	});
+</script>
 </head>
-
 <body>
 	<%
 	    String me = request.getParameter("thisMuen");
@@ -111,13 +124,14 @@
 			<ul class="nav navbar-nav">
 				<!-- <li class="active"><a href="#">低值易耗品购置申请<span
 						class="sr-only">(current1)</span></a></li> -->
-				<li><a href="#">低值易耗品购置申请</a></li>
+				<li id="ApplyForward"><a href="<%=path%>/ApplyForward">低值易耗品购置申请</a></li>
+				<li id="ApplyFaceServlet"><a href="<%=path%>/ApplyFaceServlet">低值易耗品购置申请审批</a></li>
 				<li id="checkAndAccept"><a href="<%=path%>/checkAndAccept">低值易耗品验收</a></li>
 				<li id="Allocation"><a href="<%=path%>/Allocation">低值易耗品调拨申请</a></li>
 				<li id="showAllocation"><a href="<%=path%>/showAllocation">低值易耗品调拨查询</a></li>
 				<li id="checkAllocation"><a>低值易耗品调拨审批</a></li>
 				<li id="SelListServlet"><a href="<%=path%>/SelListServlet">低值易耗品处置（报废）</a></li>
-				<li><a href="#">易耗品台帐一览</a></li>
+				<li id="stangingbook"><a href="<%=path%>/stangingbook">易耗品台帐一览</a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
