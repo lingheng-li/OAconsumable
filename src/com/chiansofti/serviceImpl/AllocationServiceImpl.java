@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.chiansofti.dao.AllocationDao;
+import com.chiansofti.dao.RecodeDao;
 import com.chiansofti.dao.TestConsumableDao;
 import com.chiansofti.entity.Allocation;
 import com.chiansofti.entity.ConsumablesDetal;
@@ -16,7 +17,8 @@ public class AllocationServiceImpl implements AllocationService{
 
 	AllocationDao allocationDao = new AllocationDao();
 	TestConsumableDao consumableDao = new TestConsumableDao();
-	int i;
+	RecodeDao recodeDao = new RecodeDao();
+	
 	@Override
 	//查询自己办理的调拨单以及
 	public List<Allocation> select(Emp emp) {
@@ -74,7 +76,7 @@ public class AllocationServiceImpl implements AllocationService{
 	}
 
 	//审批时调用
-	public int update(String state,String allocationid) {
+	public int update(String state,String allocationid,Emp emp) {
 		int a=Integer.parseInt(state);
 		boolean flag = true;
 		int result=0;
@@ -84,6 +86,7 @@ public class AllocationServiceImpl implements AllocationService{
 		}
 		if(flag){
 			result=allocationDao.update(a, allocationid);
+			recodeDao.insert(state,allocationid,emp.getEmpname());
 		}
 		return result;
 	}
@@ -91,7 +94,6 @@ public class AllocationServiceImpl implements AllocationService{
 	//新增调拨
 	@Override
 	public void insert(String[] datas,String[] user, String rdeptno,Emp emp) {
-		i++;
 		List<Allocation> list= new ArrayList<>();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());

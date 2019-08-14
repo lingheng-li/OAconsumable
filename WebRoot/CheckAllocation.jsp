@@ -116,18 +116,6 @@ td {
 					</c:if>
 				</c:if>
 			</c:if>
-<%-- 			<c:if test="${emp.deptno=='d102'&&(list[0].state-6)<emp.power}">
-				<tr>
-					<td colspan="8" align="center"><button style="width:100px;"
-						id="btn" onclick="allowed()" class="btn btn-default btn-block">同意</button></td>
-				</tr>
-				<c:if test="${emp.power==2}">
-					<tr>
-						<td colspan="8" align="center"><button style="width:100px;"
-							id="btn" onclick="refuse()" class="btn btn-default btn-block">驳回</button></td>
-					</tr>
-				</c:if>
-			</c:if> --%>
     	</table>
   </body>
   <script type="text/javascript">

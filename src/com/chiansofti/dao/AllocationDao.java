@@ -148,7 +148,7 @@ public class AllocationDao {
 			ps=conn.prepareStatement(sql);
 			for (Allocation a : list) {
 				int state=0;
-				if(a.getUsername()!=null){
+				if(a.getUsername()!=null&&!a.getUsername().equals("")){
 					state=1;
 				}
 				ps.setObject(1, a.getUsername());

@@ -32,9 +32,6 @@ public class SelServlet extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 			req.setAttribute("name", name);
 			req.getRequestDispatcher("/ChuZhi.jsp").forward(req, resp);
-			
-
-			
 	}
 
 	protected void doGet(HttpServletRequest request,
