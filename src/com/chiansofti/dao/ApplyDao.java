@@ -1,3 +1,4 @@
+
 package com.chiansofti.dao;
 
 import java.math.BigDecimal;
@@ -19,23 +20,23 @@ public class ApplyDao {
 	Connection conn=null;
 	PreparedStatement ps=null;
 	ResultSet rs=null;
-	//ÉêÇë±íÊı¾İ²åÈëÊı¾İ¿â·½·¨
-	//´«Èëapply¶ÔÏó
+	//ç”³è¯·è¡¨æ•°æ®æ’å…¥æ•°æ®åº“æ–¹æ³•
+	//ä¼ å…¥applyå¯¹è±¡
 	public void connection(Apply apply) {
 		try{
 		conn=JDBCUtil.getMySqlConn();
-		//²åÈëÓï¾ä
+		//æ’å…¥è¯­å¥
 		String sql="insert into consumable_apply(tablenum,empno,create_time,consumable_code,consumable_name,consumable_price,consumable_number,courtyard_project,approval_status)values(?,?,?,?,?,?,?,?,?)";
 		ps=conn.prepareStatement(sql);
-		ps.setObject(1, apply.getTablenum());//±íµ¥±àºÅ
-		ps.setObject(2, apply.getEmpno());//Ô±¹¤±àºÅ
-		ps.setObject(3, apply.getCreate_time());//±íµ¥´´½¨Ê±¼ä
-		ps.setObject(4, apply.getConsumable_code());//Ò×ºÄÆ·±àÂë
-		ps.setObject(5, apply.getConsumable_name());//Ò×ºÄÆ·Ãû³Æ
-		ps.setObject(6, apply.getConsumable_price());//Ò×ºÄÆ·¼Û¸ñ
-		ps.setObject(7, apply.getConsumable_number());//Ò×ºÄÆ·ÊıÁ¿
-		ps.setObject(8, apply.getCourtyard_project());//ÊÇ·ñÎªÔº¹ÜÏîÄ¿
-		ps.setObject(9, apply.getApproval_status());//ÉóÅú×´Ì¬
+		ps.setObject(1, apply.getTablenum());//è¡¨å•ç¼–å·
+		ps.setObject(2, apply.getEmpno());//å‘˜å·¥ç¼–å·
+		ps.setObject(3, apply.getCreate_time());//è¡¨å•åˆ›å»ºæ—¶é—´
+		ps.setObject(4, apply.getConsumable_code());//æ˜“è€—å“ç¼–ç 
+		ps.setObject(5, apply.getConsumable_name());//æ˜“è€—å“åç§°
+		ps.setObject(6, apply.getConsumable_price());//æ˜“è€—å“ä»·æ ¼
+		ps.setObject(7, apply.getConsumable_number());//æ˜“è€—å“æ•°é‡
+		ps.setObject(8, apply.getCourtyard_project());//æ˜¯å¦ä¸ºé™¢ç®¡é¡¹ç›®
+		ps.setObject(9, apply.getApproval_status());//å®¡æ‰¹çŠ¶æ€
 		ps.execute();	
 	}catch (Exception e) {
 		e.printStackTrace();
@@ -43,60 +44,60 @@ public class ApplyDao {
 		JDBCUtil.close(rs, ps, conn);
 	 }
    }
-	//ÉêÇë±í²åÈëÊı¾İºó²éÑ¯·½·¨
-	//´«Èëemp¶ÔÏó£¬ÄÃµ½sessionÖĞÏëÒªµÄÖµ
-	//°Ñ²éÑ¯µ½µÄÊı¾İ·ÅÈëlistÖĞ·µ»ØÒ»¸ölist·ºĞÍ¶ÔÏó
+	//ç”³è¯·è¡¨æ’å…¥æ•°æ®åæŸ¥è¯¢æ–¹æ³•
+	//ä¼ å…¥empå¯¹è±¡ï¼Œæ‹¿åˆ°sessionä¸­æƒ³è¦çš„å€¼
+	//æŠŠæŸ¥è¯¢åˆ°çš„æ•°æ®æ”¾å…¥listä¸­è¿”å›ä¸€ä¸ªlistæ³›å‹å¯¹è±¡
 	public List<Apply> select(Emp emp) {
 		List<Apply> list=new ArrayList<Apply>();
 		try {
 			conn = JDBCUtil.getMySqlConn();
-			//¸ù¾İÈ¨ÏŞpower×öÅĞ¶Ï£¬ÆÕÍ¨Ô±¹¤Ö»ÄÜ²é¿´×Ô¼ºµÄÉêÇëµ¥£¬¾­Àí»òÕß²¿ÃÅ¾­Àí²é¿´±¾²¿ÃÅµÄÉêÇëµ¥
+			//æ ¹æ®æƒé™poweråšåˆ¤æ–­ï¼Œæ™®é€šå‘˜å·¥åªèƒ½æŸ¥çœ‹è‡ªå·±çš„ç”³è¯·å•ï¼Œç»ç†æˆ–è€…éƒ¨é—¨ç»ç†æŸ¥çœ‹æœ¬éƒ¨é—¨çš„ç”³è¯·å•
 			if(emp.getPower()==0){
-				//»ñµÃsessionÄÚµÄÔ±¹¤±àºÅ
+				//è·å¾—sessionå†…çš„å‘˜å·¥ç¼–å·
 				String empno=emp.getEmpno();
 				ps= conn.prepareStatement("select * from consumable_apply where empno=? and approval_status=0");
 				ps.setString(1, empno);
 				rs = ps.executeQuery();
 				while(rs.next()){
-					//´´½¨apply¶ÔÏó£¬½«²éÑ¯µ½µÄÊı¾İ·ÅÈë¶ÔÏóÖĞ
+					//åˆ›å»ºapplyå¯¹è±¡ï¼Œå°†æŸ¥è¯¢åˆ°çš„æ•°æ®æ”¾å…¥å¯¹è±¡ä¸­
 					Apply apply=new Apply();
-					apply.setTablenum(rs.getString("tablenum"));//±íµ¥±àºÅ
-					apply.setConsumable_name(rs.getString("consumable_name"));//Ò×ºÄÆ·Ãû³Æ
-					apply.setConsumable_code(rs.getString("consumable_code"));//Ò×ºÄÆ·±àÂë
-					apply.setConsumable_price(rs.getBigDecimal("consumable_price"));//Ò×ºÄÆ·¼Û¸ñ
-					//BigDecimal¾«¶È¸ú¸ßµÄº¯ÊıÀàĞÍ
+					apply.setTablenum(rs.getString("tablenum"));//è¡¨å•ç¼–å·
+					apply.setConsumable_name(rs.getString("consumable_name"));//æ˜“è€—å“åç§°
+					apply.setConsumable_code(rs.getString("consumable_code"));//æ˜“è€—å“ç¼–ç 
+					apply.setConsumable_price(rs.getBigDecimal("consumable_price"));//æ˜“è€—å“ä»·æ ¼
+					//BigDecimalç²¾åº¦è·Ÿé«˜çš„å‡½æ•°ç±»å‹
 					BigDecimal  consumable_price  = rs.getBigDecimal("consumable_price");
-					apply.setConsumable_number(rs.getInt("consumable_number"));//Ò×ºÄÆ·ÊıÁ¿
-					//°ÑÊıÁ¿×ª»»ÎªBigDecimalÀàĞÍ£¬½øĞĞ¼ÆËã
+					apply.setConsumable_number(rs.getInt("consumable_number"));//æ˜“è€—å“æ•°é‡
+					//æŠŠæ•°é‡è½¬æ¢ä¸ºBigDecimalç±»å‹ï¼Œè¿›è¡Œè®¡ç®—
 					int b=rs.getInt("consumable_number");
 					BigDecimal consumable_number = new BigDecimal(b);
-					//Ç°¶ËÏÔÊ¾µÄ×Ü¼ÛÎªµ¥¼ÛÓëÊıÁ¿µÄ³Ë»ı£¬Ê¹ÓÃBigDecimalÌØÓĞµÄ·½·¨multiply()
+					//å‰ç«¯æ˜¾ç¤ºçš„æ€»ä»·ä¸ºå•ä»·ä¸æ•°é‡çš„ä¹˜ç§¯ï¼Œä½¿ç”¨BigDecimalç‰¹æœ‰çš„æ–¹æ³•multiply()
 					BigDecimal   totalPrice = consumable_price.multiply(consumable_number);
-					apply.setTotalPrice(totalPrice);//×Ü¼Û
+					apply.setTotalPrice(totalPrice);//æ€»ä»·
 					list.add(apply);
 				     }
 				}else{
-					//»ñµÃsessionÄÚµÄ²¿ÃÅ±àºÅ
+					//è·å¾—sessionå†…çš„éƒ¨é—¨ç¼–å·
 					String deptno=emp.getDeptno();
 					ps= conn.prepareStatement("select * from consumable_apply  where  empno in (select empno  from emp where deptno =?) and approval_status=0");
 					ps.setString(1, deptno);
 					rs = ps.executeQuery();
 					while(rs.next()){
-						//´´½¨apply¶ÔÏó£¬½«²éÑ¯µ½µÄÊı¾İ·ÅÈë¶ÔÏóÖĞ
+						//åˆ›å»ºapplyå¯¹è±¡ï¼Œå°†æŸ¥è¯¢åˆ°çš„æ•°æ®æ”¾å…¥å¯¹è±¡ä¸­
 						Apply apply=new Apply();
-						apply.setTablenum(rs.getString("tablenum"));//±íµ¥±àºÅ
-						apply.setConsumable_name(rs.getString("consumable_name"));//Ò×ºÄÆ·Ãû³Æ
-						apply.setConsumable_code(rs.getString("consumable_code"));//Ò×ºÄÆ·±àÂë
-						apply.setConsumable_price(rs.getBigDecimal("consumable_price"));//Ò×ºÄÆ·¼Û¸ñ
-						//BigDecimal¾«¶È¸ú¸ßµÄº¯ÊıÀàĞÍ
+						apply.setTablenum(rs.getString("tablenum"));//è¡¨å•ç¼–å·
+						apply.setConsumable_name(rs.getString("consumable_name"));//æ˜“è€—å“åç§°
+						apply.setConsumable_code(rs.getString("consumable_code"));//æ˜“è€—å“ç¼–ç 
+						apply.setConsumable_price(rs.getBigDecimal("consumable_price"));//æ˜“è€—å“ä»·æ ¼
+						//BigDecimalç²¾åº¦è·Ÿé«˜çš„å‡½æ•°ç±»å‹
 						BigDecimal  consumable_price  = rs.getBigDecimal("consumable_price");
-						apply.setConsumable_number(rs.getInt("consumable_number"));//Ò×ºÄÆ·ÊıÁ¿
-						//°ÑÊıÁ¿×ª»»ÎªBigDecimalÀàĞÍ£¬½øĞĞ¼ÆËã
+						apply.setConsumable_number(rs.getInt("consumable_number"));//æ˜“è€—å“æ•°é‡
+						//æŠŠæ•°é‡è½¬æ¢ä¸ºBigDecimalç±»å‹ï¼Œè¿›è¡Œè®¡ç®—
 						int b=rs.getInt("consumable_number");
 						BigDecimal consumable_number = new BigDecimal(b);
-						//Ç°¶ËÏÔÊ¾µÄ×Ü¼ÛÎªµ¥¼ÛÓëÊıÁ¿µÄ³Ë»ı£¬Ê¹ÓÃBigDecimalÌØÓĞµÄ·½·¨multiply()
+						//å‰ç«¯æ˜¾ç¤ºçš„æ€»ä»·ä¸ºå•ä»·ä¸æ•°é‡çš„ä¹˜ç§¯ï¼Œä½¿ç”¨BigDecimalç‰¹æœ‰çš„æ–¹æ³•multiply()
 						BigDecimal   totalPrice = consumable_price.multiply(consumable_number);
-						apply.setTotalPrice(totalPrice);//×Ü¼Û
+						apply.setTotalPrice(totalPrice);//æ€»ä»·
 						list.add(apply);
 					     }
 		          } 
@@ -108,11 +109,11 @@ public class ApplyDao {
 		return list;
 	}
 	
-	//ĞŞ¸ÄÉóºË×´Ì¬·½·¨
+	//ä¿®æ”¹å®¡æ ¸çŠ¶æ€æ–¹æ³•
 	public void updateApply(String tablenum) {
 		try{
 		conn=JDBCUtil.getMySqlConn();
-		//²åÈëÓï¾ä
+		//æ’å…¥è¯­å¥
 		String sql="update consumable_apply set approval_status=1 where tablenum=?";
 		ps=conn.prepareStatement(sql);
 		ps.setObject(1, tablenum);
