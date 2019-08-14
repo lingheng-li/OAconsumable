@@ -1,11 +1,11 @@
-﻿package com.chiansofti.servlet;
+package com.chiansofti.servlet;
 import com.chiansofti.entity.ChuZhiName;
 import com.chiansofti.entity.Emp;
 import com.chiansofti.entity.WasteObject;
 import com.chiansofti.serviceImpl.ChuZhiNameimpl;
 
 import net.sf.json.JSONArray;
-   
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +28,7 @@ public class SelectServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		Emp emp = (Emp) session.getAttribute("emp");
 		List<WasteObject> list = chuzhinameimpl.rest(name);
+		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().print(JSONArray.fromObject(list));      
     }
 

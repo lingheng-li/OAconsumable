@@ -1,12 +1,13 @@
-﻿package com.chiansofti.servlet;
+package com.chiansofti.servlet;
 
+import com.chiansofti.dao.ChuZhiDao;
 import com.chiansofti.entity.CZprincipal;
 import com.chiansofti.entity.ChuZhiName;
 import com.chiansofti.entity.Emp;
 import com.chiansofti.serviceImpl.ChuZhiNameimpl;
 
 import net.sf.json.JSONArray;
-   
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +32,9 @@ public class SelServlet extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 			req.setAttribute("name", name);
 			req.getRequestDispatcher("/ChuZhi.jsp").forward(req, resp);
+			
+
+			
 	}
 
 	protected void doGet(HttpServletRequest request,

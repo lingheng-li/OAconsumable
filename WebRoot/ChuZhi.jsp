@@ -1,4 +1,4 @@
-﻿<%
+<%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 /*  $(document).ready(function () {
         $("#table").DataTable();
     });  */
-   
+
     var i = 0;
     var t = 0;
 	/* $(function(){
@@ -72,8 +72,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             + '<td name="td6' + t + '"id="td6' + t + '"></td>'
             + '<td > <select name="sel' + t + '"id="sel' + t + '">'
             + '<option value="">请选择处置原因</option>'
-            + '<option value="卖掉">卖掉</option>'
-            + '<option value="销毁">销毁</option>'
+            + '<option value="年限到期">年限到期</option>'
+            + '<option value="损坏、报废">损坏、报废</option>'
+            +'<option value="其他">其他</option>'
             + '</select></td>'
             + '<td><a href="#" onclick=delRow(' + i + ') >删除</a></td>'
             + '</tr>';
@@ -87,7 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             success: function (data) {
                 var selname = "#" + "selname" + t;
                 for (var n = 0; n < data.length; n++) {
-                    $(selname).append('<option value="' + data[n].name + '">' + data[n].name + '</option>');
+                    $(selname).append("<option value='"+n+"'>"+ data[n].name + "</option>");
                 }
             },
             error: function (e) {
@@ -99,7 +100,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     //已选择改变执行后面的内容
     function change(e) {
         var selname = "#" + "selname" + e;
-        var a = $(selname).val();
+        var a = $(selname).find("option:selected").text();
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/SelectServlet?name=" + a,
@@ -178,6 +179,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             }
         });
      }
+          function change3(id){
+     	var a =$("#code"+id).text();
+          $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/Tuihui?bianh="+a,
+            contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+            dataType: "json",
+            success: function () {
+            alert("成功");
+            },
+
+        });
+     }
     
     function delRow(_id) {
         $("#table .tr_" + _id).hide();
@@ -197,10 +211,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <form >
 <table  id="table" width="1200px" border="1px" align="center" cellspacing="0px" cellpadding="0px" style="border:#c4e3f3">
     <tr width="100%">
-        <caption align="center"><h3>低值易耗损处置申报审批单</h3></caption>
-        <td style="color:#8c8c8c;background-color:#d9edf7" width="70.5%" align="center" height="30px">
+        <%-- <caption align="center"><h3>低值易耗损处置申报审批单</h3></caption> --%>
+        			<tr>
+				<td colspan="8" align="center"><h4>低值易耗损处置申报审批单</h4></td>
+			</tr>
+        <td style="color:#8c8c8c;background-color:#d9edf7" width="47%" align="center" height="30px">
             所在单位
         </td>
+        <td colspan="1"><input type="text" class=".input-mini form-control" "></td>
         <td width="30%" align="center">
             &nbsp;
         </td>
@@ -221,7 +239,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     <td>处置原因</td>
                     <c:if test="${emp.power==0 }">
                     <td>
-                        <button type="button" name="add" value="add" style="background-color:#2aabd2"
+                        <button type="button" name="add" value="add" 
                                 onclick="addRow()">添加
               			 </button>
                     </td>
@@ -258,6 +276,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<td colspan="9" align="center"><button style="width:100px;"
 					onclick = "change2(${xuhao.index+1})"; class="btn btn-default btn-block" >通过</button>
 					</td>
+					<td colspan="9" align="center"><button style="width:100px;"
+					onclick = "change3(${xuhao.index+1})"; class="btn btn-default btn-block" >驳回</button>
+					</td>
 				
 			</tr>
 			</c:forEach>
@@ -268,7 +289,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
     <tr align="center">
         <td>经办人意见</td>
-        <td width="70%"><textarea rows="3" cols="110"></textarea>
+        <td width="70%"><input type="text" class=".input-mini form-control">
         </td>
     </tr>
     <c:if test="${emp.power==2 }">

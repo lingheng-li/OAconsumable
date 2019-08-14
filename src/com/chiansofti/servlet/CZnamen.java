@@ -1,4 +1,4 @@
-﻿package com.chiansofti.servlet;
+package com.chiansofti.servlet;
 
 import com.chiansofti.entity.CZprincipal;
 import com.chiansofti.entity.ChuZhiName;
@@ -34,7 +34,7 @@ public class CZnamen extends HttpServlet {
 			resp.setCharacterEncoding("UTF-8");
 			resp.getWriter().print(JSONArray.fromObject(name).toString());
 		}
-	}    
+	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {

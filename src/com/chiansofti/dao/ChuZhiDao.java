@@ -1,4 +1,4 @@
-﻿package com.chiansofti.dao;
+package com.chiansofti.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +13,7 @@ import com.chiansofti.entity.ChuZhiName;
 import com.chiansofti.entity.WasteObject;
 
 public class ChuZhiDao {
-	ResultSet rs = null; 
+	ResultSet rs = null;
 	PreparedStatement ps = null;
 	Connection conn = null;
 		public List<ChuZhiName> name(){
@@ -32,6 +32,8 @@ public class ChuZhiDao {
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
+			}finally{
+				JDBCUtil.close(rs, ps, conn);
 			}
 			for(int i = 0;i<list.size();i++){
 				System.out.println(list.get(i));
@@ -60,6 +62,8 @@ public class ChuZhiDao {
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
+			}finally{
+				JDBCUtil.close(rs, ps, conn);
 			}
 			return list;
 			
@@ -74,6 +78,8 @@ public class ChuZhiDao {
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
+			}finally{
+				JDBCUtil.close(rs, ps, conn);
 			}
 		}
 		public List<CZprincipal> principal(){
@@ -98,6 +104,8 @@ public class ChuZhiDao {
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
+			}finally{
+				JDBCUtil.close(rs, ps, conn);
 			}
 			for(int i = 0;i<list.size();i++){
 				System.out.println(list.get(i));
@@ -116,19 +124,23 @@ public class ChuZhiDao {
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
+			}finally{
+				JDBCUtil.close(rs, ps, conn);
 			}
 		
 		}
-		public void tuihui(){
+		public void tuihui(String bianh){
 			conn=JDBCUtil.getMySqlConn();
-			String sql = "UPDATE consumables_detal SET handle='null',state=1 where consumable_code=?";
+			String sql = "UPDATE consumables_detal SET handle='',state=1 where consumable_code=?";
 			try {
 				ps=conn.prepareStatement(sql);
-//				ps.setObject(1, name);
-				rs=ps.executeQuery();
+				ps.setObject(1, bianh);
+				int r = ps.executeUpdate();
 			} catch (SQLException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
+			}finally{
+				JDBCUtil.close(rs, ps, conn);
 			}
 		}
 }
