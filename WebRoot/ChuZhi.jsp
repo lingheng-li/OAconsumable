@@ -1,4 +1,4 @@
-<%
+﻿<%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 /*  $(document).ready(function () {
         $("#table").DataTable();
     });  */
-
+    
     var i = 0;
     var t = 0;
 	/* $(function(){

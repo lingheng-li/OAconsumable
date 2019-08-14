@@ -1,4 +1,4 @@
-package com.chiansofti.dao;
+﻿package com.chiansofti.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import com.chiansofti.util.JDBCUtil;
 import com.chiansofti.entity.CZprincipal;
 import com.chiansofti.entity.ChuZhiName;
 import com.chiansofti.entity.WasteObject;
-
+     
 public class ChuZhiDao {
 	ResultSet rs = null;
 	PreparedStatement ps = null;
