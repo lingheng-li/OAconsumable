@@ -48,7 +48,7 @@
 		$("#" + thisMuen).addClass("active");
 	});
 </script>
-
+<!-- 
 <script type="text/javascript">
 	$(function(){
 		$("#checkAndAccept").click(function() {
@@ -97,7 +97,7 @@
 			$("#stangingbook").addClass("active");
 		});
 	});
-</script>
+</script> -->
 </head>
 <body>
 	<%

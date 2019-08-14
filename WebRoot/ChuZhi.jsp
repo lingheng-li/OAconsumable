@@ -206,7 +206,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <jsp:include page="/include/OAMainMenus.jsp" flush="true">
-		<jsp:param name="thisMuen" value="ChuZhi" />
+		<jsp:param name="thisMuen" value="SelListServlet" />
 	</jsp:include>
 <form >
 <table  id="table" width="1200px" border="1px" align="center" cellspacing="0px" cellpadding="0px" style="border:#c4e3f3">

@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>OA易耗品管理系统</title>
+    <title>易耗品管理系统</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -24,11 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <div class="jumbotron" align="center">
-		<h1>Hello, world!</h1>
-		<p>
-			<a class="btn btn-primary btn-lg" href="#" role="button">TestButton</a>
-		</p>
-		<p><%=basePath %></p>
+		<h1>欢迎使用易耗品管理系统</h1>
 	</div>
   </body>
 </html>
