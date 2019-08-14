@@ -30,7 +30,7 @@
 		var curEmpno = null;// 申请人编号
 		var curDeptno = null;// 当前登录用户的部门编号，也就是验收人的部门编号
 		var curApplyDetail = null;// 在审批中的申请
-		var curApply=null;// 
+		var curApply = null;// 
 		var isEx = null;// 是否在详情表中有数据
 		var purch = null;// 采购人
 		$(function () {
@@ -49,8 +49,8 @@
 			curApplyDetail = data;
 		}
 
-		function getCurApply(data){
-			curApply=data;
+		function getCurApply(data) {
+			curApply = data;
 		}
 
 		function success(data) {
@@ -112,51 +112,90 @@
 						var i = curApplyCount;
 						curNum = i;
 						isEx = 1;
-						
 						$.ajaxSettings.async = false;
 						$.get("getCurApply", {
 							p: curTableNum
 						}, getCurApply, "json");
 						$.ajaxSettings.async = true;
 						// curApply
-						
-						
-						
+
 						$.each(curApplyDetail, function (key, values) {
 							// 合计
 							$("#totalNum").html(curApplyCount);
 							// 序号	
 							var tdno = "<td align='center' style='vertical-align:middle;'>" + i + "</td>";
 							// 物品编码 
-							var tdcode = "<td style='vertical-align:middle;'>" + values[2] + "</td>";
+							var tdcode = "<td id='code2"+i+"' style='vertical-align:middle;'>" + values[2] + "</td>";
 							// 物品名称
-							var tdname = "<td style='vertical-align:middle;'>" + name + "</td>";
+							var tdname = "<td id='name2"+i+"' style='vertical-align:middle;'>" + name + "</td>";
 							// 物品数量  
 							var tdnum = "<td align='center' style='vertical-align:middle;'>1</td>";
 							//不含税单价	
-							var tdprice1 = "<td style='vertical-align:middle;text-align:center'>" + values[4] + "</td>";
+							var tdprice1 = "<td id='excludingTaxPrice2"+i+"' style='vertical-align:middle;text-align:center'>" + values[4] + "</td>";
 							//不含税总价	
 							var tdprice2 = "<td id='excludingTaxPrices" + i + "' style='vertical-align:middle;text-align:center'>" + values[4] + "</td>";
 							//增值税	
-							var tdprice3 = "<td style='vertical-align:middle;text-align:center'>" + values[5] + "</td>";
+							var tdprice3 = "<td id='valueAddedTax2" + i + "' style='vertical-align:middle;text-align:center'>" + values[5] + "</td>";
 							//价税合计
 							var tdprice4 = "<td id='priceWithTaxIncluded" + i + "' style='vertical-align:middle;text-align:center'>" + (Number(values[4]) + Number(values[5])) + "</td>";
 							// 使用人
-							var tduser = "<td colspan='2' style='vertical-align:middle;'>" + values[6] + "</td>";
+							var tduser = "<td id='user"+i+"' colspan='2' style='vertical-align:middle;'>" + values[6] + "</td>";
 							$("#items tr:eq(3)").after(
 								"<tr id='items" + i + "'>" + tdno + tdcode + tdname + tdnum + tdprice1 + tdprice2 + tdprice3 + tdprice4 + tduser + "</tr>");
 							purch = values[7];
 							i--;
 
 						});
-							$("#acceptor").empty();
-							console.log(curApply);
-							$("#acceptor").html((curApply[2]==null||curApply[2]=="")?'${emp==null?'':emp.empname }':curApply[2]);
+
+						// 验收人
+						$("#acceptor").empty();
+						console.log(curApply);
+						$("#acceptor").html((curApply[2] == null || curApply[2] == "") ? '${emp==null?'':emp.empname }': curApply[2]);
+
+						// 验收人意见
+						if(curApply[0] == 1||curApply[0] == 0){
+							$("#accepterOP").empty();
+							$("#accepterOP").html(curApply[0] == 1 ? "同意" : "不同意");
+						}
+
+						// 部门负责人
+						if (curApply[3] != null && curApply[3] != "" && curApply[3] != "null") {
+							$("#lead").empty();
+							$("#lead").html(curApply[3]);
+							// 部门负责人意见
+							if (curApply[1] == 0 || curApply[1] == 1) {
+								$("#depterOP").empty();
+								$("#depterOP").html(curApply[1] == 1 ? "同意" : "不同意");
+							}
+						}
+						
+						// 印章
+						if(curApply[4]=='y'){
+							$("#seal").html("OK");
+							$("#doSeal").attr('disabled',true);
+							$("#doSubmit").attr('disabled',true);
+						}
+
 					} else {
 						// 循环添加易耗品
 						isEx = 0;
 						$("#acceptor").empty();
 						$("#acceptor").html('${emp==null?'':emp.empname }');
+						$("#seal").html("");
+						
+						$("#doSeal").attr('disabled',false);
+						$("#doSubmit").attr('disabled',false);
+						
+						$("#accepterOP").empty();
+						$op = $("<select id='accepter' class='form-control'><option value='-1'></option><option value='1'>同意</option><option value='0'>不同意</option></select>");
+						$op.appendTo($("#accepterOP"));
+						
+						
+						$("#depterOP").empty();
+						$op = $("<select id='deptHead' class='form-control'><option value='-1'></option><option value='1'>同意</option><option value='0'>不同意</option></select>");
+						$op.appendTo($("#depterOP"));
+						
+						
 						for (var i = curNum; i > 0; i--) {
 							// 合计
 							$("#totalNum").html(curNum);
@@ -241,6 +280,7 @@
 			$("#leader").empty();
 			$("#purchasing").empty();
 			$.each(userList, function (n, values) {
+				$op = $("<option value='"+values.deptno+"'>" + values.empname + "</option>");
 				$op = $("<option>" + values.empname + "</option>");
 				if (values.position == "部门经理" && values.deptno == curDeptno) {
 					$op.appendTo($("#leader"));
@@ -251,7 +291,7 @@
 				if (isEx != 1) {
 					$op = $("<option>" + values.empname + "</option>");
 					$op.appendTo($("#purchasing"));
-				}else{
+				} else {
 					$("#purchasing").empty();
 					$op = $("<option>" + purch + "</option>");
 					$op.appendTo($("#purchasing"));
@@ -344,11 +384,11 @@
 
 					<!-- 验收人意见 -->
 					<td colspan="2" style="vertical-align:middle;">验收人意见：</td>
-					<td colspan="2" style="vertical-align:middle;">
+					<td id="accepterOP" colspan="2" style="vertical-align:middle;">
 						<select id="accepter" class='form-control'>
 							<option value="-1"></option>
 							<option value="1">同意</option>
-							<option value="2">不同意</option>
+							<option value="0">不同意</option>
 						</select>
 					</td>
 
@@ -359,12 +399,12 @@
 				<c:if test="<%=power > 0%>">
 					<tr>
 						<td colspan="2" style="vertical-align:middle;">部门负责人：</td>
-						<td colspan="1" style="vertical-align:middle;">
+						<td id="lead" colspan="1" style="vertical-align:middle;">
 							<select id="leader" class='form-control'></select>
 						</td>
 						<!-- 部门负责人意见 -->
 						<td colspan="2" style="vertical-align:middle;">部门负责人意见：</td>
-						<td colspan="2" style="vertical-align:middle;">
+						<td colspan="2" style="vertical-align:middle;" id="depterOP">
 							<select id="deptHead" class='form-control'>
 								<option value="-1"></option>
 								<option value="1">同意</option>
@@ -377,7 +417,7 @@
 					<tr>
 						<td colspan="2" style="vertical-align:middle;">部门印章：</td>
 						<td colspan="1" align="center" style="vertical-align:middle;">
-							<input type="button" onclick="seal()" value="盖章" style="width:100px;"
+							<input id="doSeal" type="button" onclick="seal()" value="盖章" style="width:100px;"
 								class="btn btn-default btn-block" />
 						</td>
 						<td colspan="4" id="seal" style="vertical-align:middle;color:red;text-align:center"></td>
@@ -388,7 +428,7 @@
 				</c:if>
 				<tr>
 					<td colspan="9" align="center">
-						<button style="width:100px;" onclick="sub()" class="btn btn-default btn-block">提交</button>
+						<button id="doSubmit" style="width:100px;" onclick="sub()" class="btn btn-default btn-block">提交</button>
 					</td>
 				</tr>
 			</tbody>
@@ -409,32 +449,56 @@
 			for (var i = 1; i <= curNum; i++) {
 				// 表单编号
 				data1[j++] = $("#applyList").val();
-				// 易耗品编号
-				data1[j++] = $("#code" + i).val();
-				// 易耗品名称
-				data1[j++] = $("#name" + i).val();
+				
 				// 数量
 				data1[j++] = 1;
-				// 不含税单价
-				data1[j++] = $("#excludingTaxPrice" + i).val();
-				// 增值税
-				data1[j++] = $("#valueAddedTax" + i).val();
-				// 使用人
-				data1[j++] = $("#selectUser" + i).val();
-				// 存放点
-				data1[j++] = $("#selectUser" + i).val() == "" ? "仓库"
-					: "使用人所在部门";//后台继续处理
-				// 是否在用
-				data1[j++] = $("#selectUser" + i).val() == "" ? "否" : "是";//后台继续处理
+				if(isEx>0){
+					// 易耗品编号
+					data1[j++] = $("#code2" + i).html();
+					// 易耗品名称
+					data1[j++] = $("#name2" + i).html();
+					// 不含税单价
+					data1[j++] = $("#excludingTaxPrice2" + i).html();
+					// 增值税
+					data1[j++] = $("#valueAddedTax2" + i).html();
+					// 使用人
+					data1[j++] = $("#user" + i).html();
+					// 存放点
+					data1[j++] = $("#user" + i).html() == "" ? "仓库"	: "使用人所在部门";//后台继续处理
+					// 验收人意见
+					data1[j++] = $("#accepterOP").html();
+					// 是否在用
+					data1[j++] = $("#user" + i).html() == "" ? "否" : "是";//后台继续处理
+					// 验收人编号
+					data1[j++] = $("#acceptor").html();
+				}else{
+					// 易耗品编号
+					data1[j++] = $("#code" + i).val();
+					// 易耗品名称
+					data1[j++] = $("#name" + i).val();
+					// 增值税
+					data1[j++] = $("#valueAddedTax" + i).val();
+					// 不含税单价
+					data1[j++] = $("#excludingTaxPrice" + i).val();	
+					// 使用人
+					data1[j++] = $("#selectUser" + i).val();
+					// 存放点
+					data1[j++] = $("#selectUser" + i).val() == "" ? "仓库": "使用人所在部门";//后台继续处理
+					// 验收人意见
+					data1[j++] = $("#accepter").val();
+					// 是否在用
+					data1[j++] = $("#selectUser" + i).val() == "" ? "否" : "是";//后台继续处理
+					// 验收人编号
+					data1[j++] = "<%=emp.getEmpname()%>";
+				}
 				// 采购人
 				data1[j++] = $("#purchasing").val();
-				// 验收人意见
-				data1[j++] = $("#accepter").val();
-				// 验收人编号
-				data1[j++] = "<%=emp.getEmpno()%>";
+				// 部门负责人编号
+				data1[j++] = $("#leader").val();
 				// 权限标记
 				data1[j++] =<%=power %>;
 				if (<%= power %> > 0) {
+					// 部门负责人意见
 					data1[j++] = $("#deptHead").val();
 					data1[j++] = $("#seal").html();
 				}

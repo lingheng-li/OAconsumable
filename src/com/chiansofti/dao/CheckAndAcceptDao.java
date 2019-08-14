@@ -78,111 +78,129 @@ public class CheckAndAcceptDao {
     }
 
     public void subCheck(String[][] data) {
-	// 0 D2019-a101-1
-	// 1 a123456 易耗品编号
-	// 2 绿茶 易耗品名称
-	// 3 1 数量
-	// 4 12 不含税单价
-	// 5 2 增值税
-	// 6 张三 使用人
-	// 7 仓库 存放点
-	// 8 是 是否在用
-	// 9 张三 采购人
-	// 10 1 验收人意见
-	// 11 a101 验收人编号
-	// 12 1 权限 权限大于1才有后面的数据
-	// 13 1 部门负责人意见
-	// 14 OK 印章
+	// 0 D2019-d101-1565661358870,
+	// 1 1,
+	// 2 b22526,
+	// 3 维达抽纸,
+	// 4 23.0,
+	// 5 2.0,
+	// 6 李四,使用人
+	// 7 使用人所在部门,存放点
+	// 8 同意, 验收人意见
+	// 9 是, 是否在用
+	// 10 a101,验收人编号
+	// 11 孙飒,采购人
+	// 12 李四,部门负责人
+	// 13 1,权限，是否是部门负责人
+	// 14 1,部门负责人意见
+	// 15 OK,印章
 
 	String sql_insert = "INSERT INTO consumables_detal"
 		+ "(tablenum,consumable_code,consumable_num,tax_price,added_tax,address,emp_name,deptno,state,purchaser,accept_time) "
-		+ " VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+		+ " VALUES(?,?,?,?,?,?,?,?,?,?,now())";
+	String sql_update = "UPDATE consumables_detal set deptno = ? where tablenum = ? ";
 	try {
 	    conn = JDBCUtil.getMySqlConn();
-	    String sql_changeAccepterOpinion = "UPDATE consumable_apply set approval_status = ?, accepter_opinion = ?,accepter_no = ?  where tablenum = ?";
+	    String sql_changeAccepterOpinion = "UPDATE consumable_apply set approval_status = ?, accepter_opinion = ?,accepter_no = ?, depter = ? where tablenum = ?";
 	    String sql_changeDeptOpinion = "UPDATE consumable_apply set dept_opinion = ? where tablenum = ?";
 	    String sql_changeSealStatus = "UPDATE consumable_apply set seal_status = ? where tablenum = ?";
 	    for (int i = 0; i < data.length; i++) {
 		// 验收人意见
-		if (Integer.parseInt(data[i][10]) > 0) {
+		if (data[i][8].equals("同意") || data[i][8].equals("1")) {
 		    // 验收人同意
 		    ps = conn.prepareStatement(sql_changeAccepterOpinion);
 		    ps.setObject(1, 1);
 		    ps.setObject(2, 1);
-		    ps.setObject(3, data[i][11]);
-		    ps.setObject(4, data[i][0]);
+		    ps.setObject(3, data[i][10]);
+		    ps.setObject(4, data[i][12]);
+		    ps.setObject(5, data[i][0]);
 		    ps.execute();
+
+		    ps = conn.prepareStatement(sql_changeSealStatus);
+		    ps.setObject(1, "n");
+		    ps.setObject(2, data[i][0]);
+		    ps.execute();
+
+		    if (data[i][12].equals("null") || data[i][12].equals("")
+			    || data[i][12] == null) {
+			ps = conn.prepareStatement(sql_insert);
+			// 表单编号
+			ps.setObject(1, data[i][0]);
+			// 易耗品编号
+			ps.setObject(2, data[i][2]);
+			// 数量
+			ps.setObject(3, Integer.parseInt(data[i][1]));
+			// 不含税单价
+			ps.setObject(4, Double.parseDouble(data[i][4]));
+			// 增值税
+			ps.setObject(5, Double.parseDouble(data[i][5]));
+			// TODO 存放点仓库或者所使用者所在部门，根据是否有使用人来判断。
+			ps.setObject(6, data[i][6].equals("") ? "仓库"
+				: data[i][7]);
+			// 使用人
+			ps.setObject(7, data[i][6]);
+			// 所属部门编号 TODO
+			ps.setObject(8, data[i][12]);
+			// 使用状态，根据是否有使用人判断
+			ps.setObject(9, data[i][9].equals("是") ? 1 : 0);
+			// 采购人
+			ps.setObject(10, data[i][11]);
+		    } else {
+			ps = conn.prepareStatement(sql_update);
+			ps.setObject(1, data[i][12]);
+			ps.setObject(2, data[i][0]);
+		    }
+		    ps.execute();
+
 		    // 判断权限，是否为部门负责人
-		    if (Integer.parseInt(data[i][12]) > 0) {
-			// 部门负责人意见
+		    if (data[i][13] != null && !data[i][13].equals("")
+			    && !data[i][13].equals("null")) {
+			System.out.println(data[i][13]);
 			if (Integer.parseInt(data[i][13]) > 0) {
-			    // 部门负责人同意
-			    ps = conn.prepareStatement(sql_changeDeptOpinion);
-			    ps.setObject(1, 1);
-			    ps.setObject(2, data[i][0]);
-			    ps.execute();
-			    // 判断是否有印章
-			    if (data[i][14].equals("OK")) {
-				// 验收人，部门负责人都同意，且有印章
+			    // 部门负责人意见
+			    if (Integer.parseInt(data[i][14]) > 0) {
+				// 部门负责人同意
 				ps = conn
-					.prepareStatement(sql_changeSealStatus);
-				ps.setObject(1, "OK");
+					.prepareStatement(sql_changeDeptOpinion);
+				ps.setObject(1, 1);
 				ps.setObject(2, data[i][0]);
 				ps.execute();
-
-				ps = conn.prepareStatement(sql_insert);
-				// 表单编号
-				ps.setObject(1, data[i][0]);
-				// 易耗品编号
-				ps.setObject(2, data[i][1]);
-				// 数量
-				ps.setObject(3, Integer.parseInt(data[i][3]));
-				// 不含税单价
-				ps.setObject(4, Double.parseDouble(data[i][4]));
-				// 增值税
-				ps.setObject(5, Double.parseDouble(data[i][5]));
-				// TODO 存放点仓库或者所使用者所在部门，根据是否有使用人来判断。
-				ps.setObject(6, data[i][6].equals("") ? "仓库"
-					: data[i][7]);
-				// 使用人
-				ps.setObject(7, data[i][6]);
-				// 所属部门编号
-				ps.setObject(8, data[i][7]);
-				// 使用状态，根据是否有使用人判断
-				ps.setObject(9, data[i][8].equals("是") ? 1 : 0);
-				// 采购人
-				ps.setObject(10, data[i][9]);
-				// 采购时间
-				Time t = new Time(new Date().getTime());
-				ps.setObject(11, t);
-
-				ps.execute();
+				// 判断是否有印章
+				if (data[i][15].equals("OK")) {
+				    // 验收人，部门负责人都同意，且有印章
+				    ps = conn
+					    .prepareStatement(sql_changeSealStatus);
+				    ps.setObject(1, "y");
+				    ps.setObject(2, data[i][0]);
+				    ps.execute();
+				} else {
+				    // 等待盖章
+				    ps = conn
+					    .prepareStatement(sql_changeSealStatus);
+				    ps.setObject(1, "n");
+				    ps.setObject(2, data[i][0]);
+				    ps.execute();
+				}
 			    } else {
-				// 等待盖章
+				// 部门负责人不同意
 				ps = conn
-					.prepareStatement(sql_changeSealStatus);
-				ps.setObject(1, "NO");
+					.prepareStatement(sql_changeDeptOpinion);
+				ps.setObject(1, 0);
 				ps.setObject(2, data[i][0]);
 				ps.execute();
 			    }
 			} else {
-			    // 部门负责人不同意
-			    ps = conn.prepareStatement(sql_changeDeptOpinion);
-			    ps.setObject(1, 0);
-			    ps.setObject(2, data[i][0]);
-			    ps.execute();
+			    // 当前用户不是部门负责人，则申请表单审批状态为审批中，等待有权限的用户审批
 			}
-		    } else {
-			// 当前用户不是部门负责人，则申请表单审批状态为审批中，等待有权限的用户审批
-
 		    }
 		} else {
 		    // 验收人不通过，修改申请表为已审批，验收人意见为不同意
 		    ps = conn.prepareStatement(sql_changeAccepterOpinion);
 		    ps.setObject(1, 2);
 		    ps.setObject(2, 0);
-		    ps.setObject(3, data[i][11]);
-		    ps.setObject(4, data[i][0]);
+		    ps.setObject(3, data[i][10]);
+		    ps.setObject(4, data[i][12]);
+		    ps.setObject(5, data[i][0]);
 		    ps.execute();
 		}
 	    }
@@ -241,7 +259,7 @@ public class CheckAndAcceptDao {
 
     public List<String> getCurApply(String tablenum) {
 	List<String> list = new ArrayList<>();
-	String sql = "select accepter_opinion,dept_opinion,accepter_no,seal_status from consumable_apply ca where ca.tablenum = ? ";
+	String sql = "select accepter_opinion,dept_opinion,accepter_no,depter,seal_status from consumable_apply ca where ca.tablenum = ? ";
 	try {
 	    conn = JDBCUtil.getMySqlConn();
 	    ps = conn.prepareStatement(sql);
@@ -254,7 +272,9 @@ public class CheckAndAcceptDao {
 		list.add(Integer.toString(rs.getInt("dept_opinion")));
 		// 2 验收人编号
 		list.add(rs.getString("accepter_no"));
-		// 3 印章
+		// 3 部门负责人编号
+		list.add(rs.getString("depter"));
+		// 4 印章
 		list.add(rs.getString("seal_status"));
 	    }
 	} catch (Exception e) {

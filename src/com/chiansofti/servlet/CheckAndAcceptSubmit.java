@@ -24,25 +24,18 @@ public class CheckAndAcceptSubmit extends HttpServlet {
 	req.setCharacterEncoding("utf-8");
 	// 真麻烦
 	String datas = req.getParameter("datas");
-	//["D2019-d101-1565661358870","b22526","维达抽纸",1,"12","2","李四","使用人所在部门","是","张三","1","a102",1,"1","","|","D2019-d101-1565661358870","b22526","维达抽纸",1,"12","2","王五","使用人所在部门","是","张三","1","a102",1,"1","","|"]
+	System.out.println(datas);
 
 	datas = datas.replace('[', ' ');
 	datas = datas.replace(']', ' ');
 	datas = datas.replace('\"', ' ');
 	datas = datas.trim();
-
-	//D2019-d101-1565661358870 , b22526 , 维达抽纸 ,1, 12 , 2 , 李四 , 使用人所在部门 , 是 , 张三 , 1 , a102 ,1, 1 ,  , | , D2019-d101-1565661358870 , b22526 , 维达抽纸 ,1, 12 , 2 , 王五 , 使用人所在部门 , 是 , 张三 , 1 , a102 ,1, 1 ,  , |
-	
-	
 	String[] dataArray = datas.split("\\|");
 	for (int i = 0; i < dataArray.length; i++) {
 	    dataArray[i] = dataArray[i].trim();
 	    dataArray[i] = dataArray[i].substring(0, dataArray[i].length() - 1);
 	}
-	// D2019-d101-1565661358870 , b22526 , 维达抽纸 ,1, 12 , 2 , 李四 , 使用人所在部门 , 是 , 张三 , 1 , a102 ,1, 1 ,
-	// , D2019-d101-1565661358870 , b22526 , 维达抽纸 ,1, 12 , 2 , 王五 , 使用人所在部门 , 是 , 张三 , 1 , a102 ,1, 1 ,
-	
-	
+
 	String[][] dataTrue = new String[dataArray.length][];
 	for (int i = 0; i < dataArray.length; i++) {
 	    dataTrue[i] = dataArray[i].split(",");
@@ -52,16 +45,16 @@ public class CheckAndAcceptSubmit extends HttpServlet {
 	    for (int j = 0; j < dataTrue[i].length; j++) {
 		dataTrue[i][j] = dataTrue[i][j].trim();
 		if (dataTrue[i][0].equals("")) {
-		    String[] temp=new String[dataTrue[i].length-1];
-		    System.arraycopy(dataTrue[i],1,temp,0,dataTrue[i].length-1);
-		    dataTrue[i]=temp;
-		    dataTrue[i][0]=dataTrue[i][0].trim();
+		    String[] temp = new String[dataTrue[i].length - 1];
+		    System.arraycopy(dataTrue[i], 1, temp, 0,
+			    dataTrue[i].length - 1);
+		    dataTrue[i] = temp;
+		    dataTrue[i][0] = dataTrue[i][0].trim();
 		}
 	    }
 	}
-	System.out.println(dataTrue);
-	//[D2019-a101-1, 987654, 冰柠檬, 1, 12, 2, 赵六, 使用人所在部门, 是, 张三, 1, 1, 1, OK]
-	CheckAndAcceptImpl caa=new CheckAndAcceptImpl();
+	//[D2019-d101-1565661358870, 1, b22526, 维达抽纸, 23.0, 2.0, 李四, 使用人所在部门, 同意, 是, a101, 孙飒, 李四, 1, 1, 1, OK]
+	CheckAndAcceptImpl caa = new CheckAndAcceptImpl();
 	caa.subCheck(dataTrue);
 	res.getWriter().print("1");
     }
