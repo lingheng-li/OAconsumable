@@ -16,4 +16,3 @@ public class CZservlet  extends HttpServlet{
 			 req.getRequestDispatcher("/ChuZhi.jsp").forward(req, resp);
 		}
 }   
-    

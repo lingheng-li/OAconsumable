@@ -81,7 +81,42 @@ td {
 				<td>经办人：</td>
 				<td colspan="2"><input type="text" id="user6" class=".input-mini form-control" value=""></td>
 			</tr>
-			<c:if test="${list[0].fdeptno==emp.deptno&&list[0].state<emp.power}">
+			<c:if test="${(list[0].fdeptno==emp.deptno&&list[0].state<emp.power)||(emp.deptno=='d102'&&(list[0].state-6)<emp.power)}">
+				<tr>
+					<td colspan="8" align="center"><button style="width:100px;"
+						id="btn" onclick="allowed()" class="btn btn-default btn-block">同意</button></td>
+				</tr>
+				<tr>
+						<td colspan="8" align="center"><button style="width:100px;"
+							id="btn" onclick="refuse()" class="btn btn-default btn-block">拒绝</button></td>
+					</tr>
+				<c:if test="${emp.power==2}">
+					<tr>
+						<td colspan="8" align="center"><button style="width:100px;"
+							id="btn" onclick="reject()" class="btn btn-default btn-block">驳回</button></td>
+					</tr>
+				</c:if>
+			</c:if>
+			<c:set var="falg" value="${(list[0].fdeptno==emp.deptno&&list[0].state<emp.power)||(emp.deptno=='d102'&&(list[0].state-6)<emp.power)}"/>
+			<c:if test="${!falg}">
+				<c:if test="${(list[0].rdeptno==emp.deptno&&(list[0].state-3)<emp.power)||(emp.deptno=='d102'&&(list[0].state-6)<emp.power)}">
+					<tr>
+						<td colspan="8" align="center"><button style="width:100px;"
+							id="btn" onclick="allowed()" class="btn btn-default btn-block">同意</button></td>
+					</tr>
+					<tr>
+						<td colspan="8" align="center"><button style="width:100px;"
+							id="btn" onclick="refuse()" class="btn btn-default btn-block">拒绝</button></td>
+					</tr>
+					<c:if test="${emp.power==2}">
+						<tr>
+							<td colspan="8" align="center"><button style="width:100px;"
+								id="btn" onclick="reject()" class="btn btn-default btn-block">驳回</button></td>
+						</tr>
+					</c:if>
+				</c:if>
+			</c:if>
+<%-- 			<c:if test="${emp.deptno=='d102'&&(list[0].state-6)<emp.power}">
 				<tr>
 					<td colspan="8" align="center"><button style="width:100px;"
 						id="btn" onclick="allowed()" class="btn btn-default btn-block">同意</button></td>
@@ -92,31 +127,7 @@ td {
 							id="btn" onclick="refuse()" class="btn btn-default btn-block">驳回</button></td>
 					</tr>
 				</c:if>
-			</c:if>
-			<c:if test="${list[0].rdeptno==emp.deptno&&(list[0].state-3)<emp.power}">
-				<tr>
-					<td colspan="8" align="center"><button style="width:100px;"
-						id="btn" onclick="allowed()" class="btn btn-default btn-block">同意</button></td>
-				</tr>
-				<c:if test="${emp.power==2}">
-					<tr>
-						<td colspan="8" align="center"><button style="width:100px;"
-							id="btn" onclick="refuse()" class="btn btn-default btn-block">驳回</button></td>
-					</tr>
-				</c:if>
-			</c:if>
-			<c:if test="${emp.deptno=='d102'&&(list[0].state-6)<emp.power}">
-				<tr>
-					<td colspan="8" align="center"><button style="width:100px;"
-						id="btn" onclick="allowed()" class="btn btn-default btn-block">同意</button></td>
-				</tr>
-				<c:if test="${emp.power==2}">
-					<tr>
-						<td colspan="8" align="center"><button style="width:100px;"
-							id="btn" onclick="refuse()" class="btn btn-default btn-block">驳回</button></td>
-					</tr>
-				</c:if>
-			</c:if>
+			</c:if> --%>
     	</table>
   </body>
   <script type="text/javascript">
@@ -127,6 +138,10 @@ td {
   		$("#user"+i).attr("value",b);
   	};
   	var c=parseInt(a)+1;
+  	var d=0;
+  	if(parseInt(a)>0){
+  		d=parseInt(a)-1;
+  	}
   	var power = parseInt(p);
    	function allowed(){
 		$.post(
@@ -136,10 +151,18 @@ td {
 		);
   	};
 
-   	function refuse(){
+   	function reject(){
 		$.post(
 			"saveAllocation",
 			{state:power,id:$("#allocationid").val()},
+			success
+		);
+  	}; 
+  	
+  	function refuse(){
+		$.post(
+			"saveAllocation",
+			{state:d,id:$("#allocationid").val()},
 			success
 		);
   	}; 

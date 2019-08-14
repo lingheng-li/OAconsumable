@@ -200,7 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 <html>
 <head>
-    <title></title>
+    <title>易耗品报废</title>
 </head>
 
 <body>
