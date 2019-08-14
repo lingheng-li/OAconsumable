@@ -200,7 +200,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 <html>
 <head>
-    <title>易耗品报废</title>
+    <title></title>
 </head>
 
 <body>
@@ -287,31 +287,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </td>
     </tr>
   
-    <tr align="center">
+
+    <c:if test="${emp.power==2 }">
+        <tr align="center">
         <td>经办人意见</td>
-        <td width="70%"><input type="text" class=".input-mini form-control">
+       <td><textarea rows="2" cols="110"></textarea></td>
         </td>
     </tr>
-    <c:if test="${emp.power==2 }">
     <tr align="center">
-        <td>部门负责人意见</td>
-        <td><textarea rows="3" cols="110"></textarea></td>
+        <td >部门负责人意见</td>
+        <td><textarea rows="2" cols="110"></textarea></td>
     </tr>
     <tr align="center">
         <td>部门（单位）盖章</td>
-        <td><textarea rows="3" cols="110"></textarea></td>
+         <td><textarea rows="2" cols="110"></textarea></td>
     </tr>
     <tr align="center">
         <td>财务经办人意见</td>
-        <td><textarea rows="3" cols="110"></textarea></td>
+         <td><textarea rows="2" cols="110"></textarea></td>
     </tr>
     <tr align="center">
         <td>财务负责人意见</td>
-        <td><textarea rows="3" cols="110"></textarea></td>
+         <td><textarea rows="2" cols="110"></textarea></td>
     </tr>
     <tr align="center">
         <td>财务盖章</td>
-        <td><textarea rows="3" cols="110"></textarea></td>
+        <td><textarea rows="2" cols="110"></textarea></td>
     </tr>
        </c:if>
     			<c:if test="${emp.power==0}">
