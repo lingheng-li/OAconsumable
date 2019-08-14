@@ -68,7 +68,6 @@ public class AllocationDao {
 					+",username,rdeptno,fdeptno,create_time,state) values(?,?,?,?,?,?,?,?)";
 		try {
 			conn=JDBCUtil.getMySqlConn();
-			conn.setAutoCommit(false);
 			for (Allocation a : list) {
 				ps=conn.prepareStatement(sql);
 				ps.setObject(1, a.getDetalid());
@@ -82,13 +81,7 @@ public class AllocationDao {
 				ps.execute();
 				consumableDao.update(a.getDetalid());
 			}
-			conn.commit();
 		} catch (SQLException e) {
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 			e.printStackTrace();
 		}finally{
 			JDBCUtil.getMySqlConn();

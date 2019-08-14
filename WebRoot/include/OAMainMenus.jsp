@@ -12,7 +12,7 @@
 <%-- <base href="<%=basePath%>"> --%>
 <base href="#">
 
-<title>My JSP 'OAMenus.jsp' starting page</title>
+<title>OA易耗品管理系统</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -99,7 +99,6 @@
 	});
 </script>
 </head>
-
 <body>
 	<%
 	    String me = request.getParameter("thisMuen");

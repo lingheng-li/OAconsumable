@@ -25,6 +25,9 @@ public class ConsumablesDetal {
 	private String handle;
 	//采购人
 	private String purchaser;
+	//采购时间
+	private String accept_time;
+	private String  consumable_name;
 	public int getId() {
 		return id;
 	}
@@ -109,9 +112,6 @@ public class ConsumablesDetal {
 	public void setConsumable_name(String consumable_name) {
 		this.consumable_name = consumable_name;
 	}
-	//采购时间
-	private String accept_time;
-	private String  consumable_name;
 	public ConsumablesDetal(int id, String tablenum, String consumable_code,
 			int consumable_num, double tax_price, double added_tax,
 			String address, String emp_name, String deptno, int state,

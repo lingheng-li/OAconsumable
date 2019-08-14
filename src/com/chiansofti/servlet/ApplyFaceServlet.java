@@ -26,7 +26,6 @@ public class ApplyFaceServlet extends HttpServlet {
     		req.setCharacterEncoding("utf-8");
     		resp.setCharacterEncoding("utf-8");
     		resp.setContentType("text/html;charset=utf-8");
-    		
     		HttpSession session = req.getSession();
     		Emp emp = (Emp) session.getAttribute("emp");
     	    List<Apply> list=new ArrayList<Apply>();

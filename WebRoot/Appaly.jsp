@@ -84,7 +84,6 @@ td {
 		<jsp:param name="thisMuen" value="ApplyForward" />
 	</jsp:include>
 		<table class="table table-bordered">
-			
 			<tr>
 				<td colspan="9" align="center">低值易耗品购置申请单</td>
 			</tr>

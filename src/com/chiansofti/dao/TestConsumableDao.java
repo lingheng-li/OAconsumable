@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.chiansofti.entity.ConsumablesDetal;
+import com.chiansofti.entity.Emp;
 import com.chiansofti.util.JDBCUtil;
 
 //测试用
@@ -13,14 +14,15 @@ public class TestConsumableDao {
 	ResultSet rs = null;
 	PreparedStatement ps = null;
 	Connection conn = null;
-	public ConsumablesDetal select(String code){
+	public ConsumablesDetal select(String code,Emp emp){
 		ConsumablesDetal consum=new ConsumablesDetal();
 		String sql="SELECT * FROM consumables_detal d LEFT JOIN  consumable c ON "
-				+ "d.consumable_code=c.consumable_code WHERE state<=1 and consumable_code=?";
+				+ "d.consumable_code=c.consumable_code WHERE state<=1 and d.consumable_code=? and d.deptno=?";
 		try {
 			conn=JDBCUtil.getMySqlConn();
 			ps=conn.prepareStatement(sql);
 			ps.setObject(1, code);
+			ps.setObject(2, emp.getDeptno());
 			rs=ps.executeQuery();
 			if(rs.first()){
 				consum.setId(rs.getInt("id"));
